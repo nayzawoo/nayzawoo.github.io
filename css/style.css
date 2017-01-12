@@ -151,12 +151,25 @@ p {
   animation: moveIn 1s 3.1s ease forwards;
 }
 
+.profile-bio .t {
+    display: inline-block;
+    height: 28px;
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(0,0,0,.6);
+    line-height: 32px;
+    padding: 0 10px;
+    border-radius: 16px;
+    background-color: #e4e4e4;
+    margin-top: 5px;
+}
+
 .profile-social-links {
   width: 218px;
   display: inline-block;
   float: right;
   margin: 0px;
-  padding: 15px 40px;
+  padding: 15px 20px;
   background: #FFFFFF;
   margin-top: 50px;
   text-align: center;
@@ -172,7 +185,7 @@ p {
   margin: -5px 0px 0px 0px;
   padding: 0px;
   float: left;
-  width: 33.333333%;
+  width: 25%;
   text-align: center;
 }
 
