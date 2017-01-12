@@ -479,10 +479,14 @@ p {
     float: none;
   }
   .profile-social-links {
-    width: 85%;
+     width: 85%;
     display: block;
     float: none;
     margin: 0 auto;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
   @ -webkit-keyframes materia {
     0% {
