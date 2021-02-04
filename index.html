@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<!-- <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="css/nes.min.css">
+	<link rel="stylesheet" href="css/animate.min.css">
 	<link rel="stylesheet" href="css/font.css">
 	<style>	
 		html, body {
@@ -53,7 +53,28 @@
 				<a href="mailto:nayzawoo.me@gmail.com"><i class="nes-icon gmail"></i></a>
 			</div>
 		</div>
-		<div class="nes-bcrikko" style="margin-top: 20px"></div>
+		<div onclick="onClickBrikko()" id="face" class="animate__animated animate__rubberBand animate__delay-0">
+			<div class="nes-bcrikko" style="margin-top: 20px"></div>
+		</div>
 	</div>
 </body>
+<style>
+	.face {
+		animation: bounce; /* referring directly to the animation's @keyframe declaration */
+		animation-duration: 2s; /* don't forget to set a duration! */
+	}
+</style>
+<script>
+	function onClickBrikko() {
+		let cNames = 'animate__rubberBand';
+		const el = document.querySelector('#face');
+		if (el.classList.contains(cNames)) {
+			el.classList.remove(cNames);
+		}
+
+		setTimeout(() => {
+			el.classList.add(cNames);
+		}, 100)
+	}
+</script>
 </html>
