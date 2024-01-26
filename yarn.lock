@@ -240,6 +240,16 @@
     "lightningcss" "^1.22.1"
     "nullthrows" "^1.1.1"
 
+"@parcel/optimizer-data-url@^2.11.0":
+  "integrity" "sha512-k/BCJMNhqN+3vykp1jVR8AvCrbV8sYBC3gYh/qNzeS+mcmWaF4VIeoJj/nwIu7qYgb6LIC1Ib0ph6i16YmcRFg=="
+  "resolved" "https://registry.npmjs.org/@parcel/optimizer-data-url/-/optimizer-data-url-2.11.0.tgz"
+  "version" "2.11.0"
+  dependencies:
+    "@parcel/plugin" "2.11.0"
+    "@parcel/utils" "2.11.0"
+    "isbinaryfile" "^4.0.2"
+    "mime" "^2.4.4"
+
 "@parcel/optimizer-htmlnano@2.11.0":
   "integrity" "sha512-c20pz4EFF5DNFmqYgptlIj49eT6xjGLkDTdHH3RRzxKovuSXWfYSPs3GED3ZsjVuQyjNQif+/MAk9547F7hrdQ=="
   "resolved" "https://registry.npmjs.org/@parcel/optimizer-htmlnano/-/optimizer-htmlnano-2.11.0.tgz"
@@ -520,6 +530,13 @@
     "@parcel/utils" "2.11.0"
     "@parcel/workers" "2.11.0"
     "nullthrows" "^1.1.1"
+
+"@parcel/transformer-inline-string@^2.11.0":
+  "integrity" "sha512-yLLjVqS7/P/ySOOjwdl2mElNHmCtJK81+7mnoA2oLEsf4kTKlW3JnIvX5BqJj6Dy6Ek0V1M48E86T9U3fwzWzg=="
+  "resolved" "https://registry.npmjs.org/@parcel/transformer-inline-string/-/transformer-inline-string-2.11.0.tgz"
+  "version" "2.11.0"
+  dependencies:
+    "@parcel/plugin" "2.11.0"
 
 "@parcel/transformer-js@2.11.0":
   "integrity" "sha512-G1sv0n8/fJqHqwUs0iVnVdmRY0Kh8kWaDkuWcU/GJBHMGhUnLXKdNwxX2Av9UdBL14bU1nTINfr9qOfnQotXWg=="
@@ -1209,6 +1226,11 @@
   "resolved" "https://registry.npmjs.org/is-number/-/is-number-7.0.0.tgz"
   "version" "7.0.0"
 
+"isbinaryfile@^4.0.2":
+  "integrity" "sha512-iHrqe5shvBUcFbmZq9zOQHBoeOhZJu6RQGrDpBgenUm/Am+F3JM2MgQj+rK3Z601fzrL5gLZWtAPH2OBaSVcyw=="
+  "resolved" "https://registry.npmjs.org/isbinaryfile/-/isbinaryfile-4.0.10.tgz"
+  "version" "4.0.10"
+
 "js-tokens@^4.0.0":
   "integrity" "sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ=="
   "resolved" "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz"
@@ -1305,6 +1327,11 @@
   dependencies:
     "braces" "^3.0.2"
     "picomatch" "^2.3.1"
+
+"mime@^2.4.4":
+  "integrity" "sha512-USPkMeET31rOMiarsBNIHZKLGgvKc/LrjofAnBlOttf5ajRvqiRA8QsenbcooctK6d6Ts6aqZXBA+XbkKthiQg=="
+  "resolved" "https://registry.npmjs.org/mime/-/mime-2.6.0.tgz"
+  "version" "2.6.0"
 
 "minimatch@^3.1.1":
   "integrity" "sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw=="

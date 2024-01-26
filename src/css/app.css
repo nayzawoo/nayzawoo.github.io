@@ -1,0 +1,38 @@
+@import "nes.min.css";
+@import "animate.min.css";
+@import "font.css";
+
+html,
+body {
+    height: 100vh;
+}
+
+.page {
+    display: flex;
+    height: 100vh;
+    min-height: 100vh;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.profile-img {
+    height: 100px;
+    width: 100px;
+    display: block;
+    overflow: hidden;
+    border-radius: 10px;
+    border: 2px solid #000;
+    transform: scale(1.1);
+}
+
+.profile-img img {
+    width: 100%;
+    height: 100%;
+    filter: saturate(.9);
+}
+
+.profile-img-wrapper {
+    padding: 0 !important;
+    margin-bottom: 20px !important;
+}

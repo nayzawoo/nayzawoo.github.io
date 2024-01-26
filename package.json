@@ -6,7 +6,9 @@
   "license": "UNLICENSED",
   "source": "src/index.html",
   "devDependencies": {
+    "@parcel/optimizer-data-url": "^2.11.0",
     "@parcel/packager-raw-url": "2.11.0",
+    "@parcel/transformer-inline-string": "^2.11.0",
     "@parcel/transformer-webmanifest": "2.11.0",
     "parcel": "^2.11.0",
     "shx": "^0.3.4"
