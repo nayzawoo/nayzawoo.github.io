@@ -13,7 +13,7 @@
     "parcel": "^2.11.0"
   },
   "scripts": {
-    "start": "parcel ./src/index.html",
+    "start": "rm -rf .parcel-cache && parcel ./src/index.html",
     "prebuild-dev": "rm -rf docs/*",
     "build-dev": "parcel build ./src/index.html --no-optimize --public-url ./",
     "prebuild": "rm -rf docs/*",
