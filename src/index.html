@@ -30,7 +30,7 @@
     <title>Nay Zaw Oo - nayzawoo.com</title>
 
     <script>
-      window.onClickBrikko  = function () {
+      window.onClickBrikko = function () {
         let cNames = "animate__rubberBand";
         const el = document.querySelector("#face");
         if (el.classList.contains(cNames)) {
@@ -40,17 +40,37 @@
         setTimeout(() => {
           el.classList.add(cNames);
         }, 100);
-      }
+      };
     </script>
   </head>
   <body>
     <div class="page">
+      <div id="spiderman-wrapper">
+        <div id="spiderman">
+          <div class="head">
+            <div class="eye-left"></div>
+            <div class="eye-right"></div>
+          </div>
+          <div class="body">
+            <div class="spider"></div>
+            <div class="arm-left"></div>
+            <div class="arm-right"></div>
+          </div>
+          <div class="legs">
+            <div class="boot-left"></div>
+            <div class="boot-right"></div>
+          </div>
+        </div>
+      </div>
+
       <div class="nes-container is-rounded profile-img-wrapper">
         <div class="profile-img">
           <img src="data-url:./img/profile_small.png" alt="" />
         </div>
       </div>
-      <h1 style="white-space: nowrap">nayzawoo.com</h1>
+      <h1 style="white-space: nowrap">
+        <a style="color: #212529; font-size: 1.2rem;" href="https://nayzawoo.com">nayzawoo.com</a>
+      </h1>
       <div
         style="margin-top: 30px"
         onclick="onClickBrikko()"

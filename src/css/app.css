@@ -1,6 +1,7 @@
 @import "nes.min.css";
 @import "animate.min.css";
 @import "font.css";
+@import "spiderman.css";
 
 html,
 body {
@@ -24,6 +25,7 @@ body {
     border-radius: 10px;
     border: 2px solid #000;
     transform: scale(1.1);
+    margin-top: -100px;
 }
 
 .profile-img img {
