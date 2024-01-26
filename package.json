@@ -17,6 +17,6 @@
     "prebuild-dev": "rm -rf docs/*",
     "build-dev": "parcel build ./src/index.html --no-optimize --public-url ./",
     "prebuild": "rm -rf docs/*",
-    "build": "parcel build ./src/index.html --public-url ./ --dist-dir=docs"
+    "build": "parcel build ./src/index.html --public-url ./ --dist-dir=docs && cp CNAME ./docs/"
   }
 }
