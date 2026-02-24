@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nay Zaw Oo — Software Developer</title>
     <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      name="description"
+      content="Nay Zaw Oo — Software Developer. Building clean, performant software."
     />
-    <link rel="stylesheet" href="./css/app.css" />
-    <!-- <link rel="stylesheet" href="./css/animate.min.css"> -->
-
+    <meta name="theme-color" content="#0a0a0f" />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -26,70 +26,598 @@
       sizes="16x16"
       href="./favicon/favicon-16x16.png"
     />
-    <link rel="manifest" href="./favicon/site.webmanifest" />
-    <title>Nay Zaw Oo - nayzawoo.com</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ── Reset & Base ──────────────────────────────────── */
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    <script>
-      window.onClickBrikko = function () {
-        let cNames = "animate__rubberBand";
-        const el = document.querySelector("#face");
-        if (el.classList.contains(cNames)) {
-          el.classList.remove(cNames);
+      :root {
+        --bg: #0a0a0f;
+        --surface: #12121a;
+        --surface-hover: #1a1a26;
+        --border: rgba(255, 255, 255, 0.06);
+        --border-hover: rgba(255, 255, 255, 0.12);
+        --text: #e4e4e7;
+        --text-dim: #71717a;
+        --text-muted: #52525b;
+        --accent: #818cf8;
+        --accent-soft: rgba(129, 140, 248, 0.12);
+        --green: #34d399;
+        --green-soft: rgba(52, 211, 153, 0.12);
+        --font: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        --mono: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body {
+        font-family: var(--font);
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ── Background effects ────────────────────────────── */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 600px 400px at 20% 10%,
+            rgba(129, 140, 248, 0.06),
+            transparent
+          ),
+          radial-gradient(
+            ellipse 500px 300px at 80% 80%,
+            rgba(52, 211, 153, 0.04),
+            transparent
+          );
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* ── Layout ────────────────────────────────────────── */
+      .container {
+        position: relative;
+        z-index: 1;
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 60px 24px 80px;
+      }
+
+      /* ── Hero / Profile ────────────────────────────────── */
+      .hero {
+        text-align: center;
+        margin-bottom: 48px;
+      }
+
+      .avatar-ring {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 28px;
+      }
+
+      .avatar-ring::before {
+        content: "";
+        position: absolute;
+        inset: -3px;
+        border-radius: 50%;
+        background: conic-gradient(
+          from 0deg,
+          var(--accent),
+          var(--green),
+          #f472b6,
+          var(--accent)
+        );
+        animation: ring-spin 6s linear infinite;
+        z-index: 0;
+      }
+
+      @keyframes ring-spin {
+        to {
+          transform: rotate(360deg);
         }
+      }
 
-        setTimeout(() => {
-          el.classList.add(cNames);
-        }, 100);
-      };
-    </script>
+      .avatar {
+        position: relative;
+        z-index: 1;
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        border: 3px solid var(--bg);
+        object-fit: cover;
+        display: block;
+      }
+
+      .hero h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 6px;
+      }
+
+      .hero .tagline {
+        color: var(--text-dim);
+        font-size: 0.95rem;
+        font-weight: 400;
+      }
+
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 16px;
+        padding: 6px 14px;
+        border-radius: 100px;
+        background: var(--green-soft);
+        color: var(--green);
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--green);
+        animation: pulse-dot 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-dot {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(0.85);
+        }
+      }
+
+      /* ── Terminal Card ─────────────────────────────────── */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 24px;
+        margin-bottom: 20px;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .card:hover {
+        border-color: var(--border-hover);
+        box-shadow: 0 0 40px rgba(129, 140, 248, 0.03);
+      }
+
+      .card-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .card-header .dots {
+        display: flex;
+        gap: 6px;
+      }
+
+      .card-header .dots span {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+
+      .card-header .dots span:nth-child(1) {
+        background: #ef4444;
+      }
+      .card-header .dots span:nth-child(2) {
+        background: #eab308;
+      }
+      .card-header .dots span:nth-child(3) {
+        background: #22c55e;
+      }
+
+      .card-header .title {
+        margin-left: 8px;
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        color: var(--text-muted);
+      }
+
+      .terminal-body {
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        line-height: 1.8;
+        color: var(--text-dim);
+      }
+
+      .terminal-body .prompt {
+        color: var(--green);
+        user-select: none;
+      }
+
+      .terminal-body .cmd {
+        color: var(--text);
+      }
+
+      .terminal-body .comment {
+        color: var(--text-muted);
+        font-style: italic;
+      }
+
+      .terminal-body .output {
+        color: var(--text-dim);
+        padding-left: 0;
+      }
+
+      .terminal-line {
+        display: block;
+        padding: 1px 0;
+      }
+
+      .cursor-blink {
+        display: inline-block;
+        width: 8px;
+        height: 16px;
+        background: var(--accent);
+        margin-left: 4px;
+        vertical-align: text-bottom;
+        animation: blink 1s step-end infinite;
+      }
+
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* ── Section Titles ────────────────────────────────── */
+      .section-title {
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--text-muted);
+        margin-bottom: 14px;
+        padding-left: 2px;
+      }
+
+      /* ── Tech Stack ────────────────────────────────────── */
+      .tech-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      .tech-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 10px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--text-dim);
+        transition: all 0.25s ease;
+        cursor: default;
+      }
+
+      .tech-badge:hover {
+        border-color: var(--accent);
+        color: var(--text);
+        background: var(--accent-soft);
+        transform: translateY(-1px);
+      }
+
+      .tech-badge .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      /* ── Links / Social ────────────────────────────────── */
+      .links-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .link-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 18px;
+        border-radius: 12px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        text-decoration: none;
+        color: var(--text);
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.25s ease;
+      }
+
+      .link-item:hover {
+        border-color: var(--border-hover);
+        background: var(--surface-hover);
+        transform: translateX(4px);
+      }
+
+      .link-item .link-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .link-item .link-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+
+      .link-item .arrow {
+        color: var(--text-muted);
+        transition:
+          transform 0.25s ease,
+          color 0.25s ease;
+        font-size: 0.85rem;
+      }
+
+      .link-item:hover .arrow {
+        transform: translateX(3px);
+        color: var(--text-dim);
+      }
+
+      /* ── Reveal Animations ─────────────────────────────── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(16px);
+        animation: reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      @keyframes reveal {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .reveal-d1 {
+        animation-delay: 0.08s;
+      }
+      .reveal-d2 {
+        animation-delay: 0.16s;
+      }
+      .reveal-d3 {
+        animation-delay: 0.24s;
+      }
+      .reveal-d4 {
+        animation-delay: 0.32s;
+      }
+      .reveal-d5 {
+        animation-delay: 0.4s;
+      }
+      .reveal-d6 {
+        animation-delay: 0.48s;
+      }
+
+      /* ── Footer ────────────────────────────────────────── */
+      .footer {
+        text-align: center;
+        margin-top: 48px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        font-family: var(--mono);
+      }
+
+      /* ── Responsive ────────────────────────────────────── */
+      @media (max-width: 480px) {
+        .container {
+          padding: 40px 16px 60px;
+        }
+        .hero h1 {
+          font-size: 1.5rem;
+        }
+        .avatar {
+          width: 96px;
+          height: 96px;
+        }
+        .card {
+          padding: 18px;
+        }
+        .terminal-body {
+          font-size: 0.78rem;
+        }
+      }
+    </style>
   </head>
   <body>
+    <div class="container">
+      <!-- HERO -->
+      <section class="hero reveal">
+        <div class="avatar-ring">
+          <img src="./img/profile_small.png" alt="Nay Zaw Oo" class="avatar" />
+        </div>
+        <h1>Nay Zaw Oo</h1>
+        <p class="tagline">Software Developer</p>
+        <div class="status-badge">
+          <span class="status-dot"></span>
+          Available for work
+        </div>
+      </section>
 
-	<!-- <div id="spiderman-wrapper">
-        <div id="spiderman">
-          <div class="head">
-            <div class="eye-left"></div>
-            <div class="eye-right"></div>
-          </div>
-          <div class="body">
-            <div class="spider"></div>
-            <div class="arm-left"></div>
-            <div class="arm-right"></div>
-          </div>
-          <div class="legs">
-            <div class="boot-left"></div>
-            <div class="boot-right"></div>
-          </div>
+      <!-- ABOUT — Terminal Style -->
+      <div class="card reveal reveal-d1">
+        <div class="card-header">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <span class="title">about.sh</span>
         </div>
-      </div> -->
+        <div class="terminal-body">
+          <span class="terminal-line"
+            ><span class="prompt">❯</span> <span class="cmd">whoami</span></span
+          >
+          <span class="terminal-line"
+            ><span class="output"
+              >A developer who loves building clean,</span
+            ></span
+          >
+          <span class="terminal-line"
+            ><span class="output"
+              >performant software and exploring new tech.</span
+            ></span
+          >
+          <span class="terminal-line">&nbsp;</span>
+          <span class="terminal-line"
+            ><span class="prompt">❯</span>
+            <span class="cmd">cat interests.txt</span></span
+          >
+          <span class="terminal-line"
+            ><span class="output"
+              >Web Development · Mobile Apps · Open Source</span
+            ></span
+          >
+          <span class="terminal-line">&nbsp;</span>
+          <span class="terminal-line"
+            ><span class="prompt">❯</span> <span class="cursor-blink"></span
+          ></span>
+        </div>
+      </div>
 
-    <div class="page">
-      <div class="nes-container is-rounded profile-img-wrapper">
-        <div class="profile-img">
-          <img src="/img/profile_small.png" alt="" />
+      <!-- TECH STACK -->
+      <div class="reveal reveal-d2">
+        <p class="section-title">Tech Stack</p>
+        <div class="tech-grid">
+          <span class="tech-badge"
+            ><span class="dot" style="background: #3178c6"></span
+            >TypeScript</span
+          >
+          <span class="tech-badge"
+            ><span class="dot" style="background: #4fc08d"></span>Vue.js</span
+          >
+          <span class="tech-badge"
+            ><span class="dot" style="background: #61dafb"></span>React</span
+          >
+          <span class="tech-badge"
+            ><span class="dot" style="background: #777bb4"></span>PHP</span
+          >
+          <span class="tech-badge"
+            ><span class="dot" style="background: #ff2d20"></span>Laravel</span
+          >
+          <span class="tech-badge"
+            ><span class="dot" style="background: #02569b"></span>Flutter</span
+          >
+          <span class="tech-badge"
+            ><span class="dot" style="background: #f7df1e"></span
+            >JavaScript</span
+          >
+          <span class="tech-badge"
+            ><span class="dot" style="background: #38bdf8"></span>Tailwind
+            CSS</span
+          >
+          <span class="tech-badge"
+            ><span class="dot" style="background: #336791"></span
+            >PostgreSQL</span
+          >
+          <span class="tech-badge"
+            ><span class="dot" style="background: #ff4154"></span>Redis</span
+          >
         </div>
       </div>
-      <h1 style="white-space: nowrap">
-        <a style="color: #212529; font-size: 1.2rem;" href="https://nayzawoo.com">nayzawoo.com</a>
-      </h1>
-      <div
-        style="margin-top: 30px"
-        onclick="onClickBrikko()"
-        id="face"
-        class="animate__animated animate__rubberBand animate__delay-0"
-      >
-        <div class="nes-bcrikko"></div>
-      </div>
-      <div style="margin-top: 20px">
-        <div class="share">
-          <a href="https://github.com/nayzawoo/" target="_blank"
-            ><i class="nes-icon github"></i
-          ></a>
+
+      <!-- LINKS -->
+      <div class="reveal reveal-d3">
+        <p class="section-title">Connect</p>
+        <div class="links-list">
+          <a
+            href="https://github.com/nayzawoo"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-item"
+          >
+            <span class="link-left">
+              <span
+                class="link-icon"
+                style="background: rgba(255, 255, 255, 0.06)"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+                  />
+                </svg>
+              </span>
+              GitHub
+            </span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="mailto:nayzawoo.me@gmail.com" class="link-item">
+            <span class="link-left">
+              <span
+                class="link-icon"
+                style="background: rgba(129, 140, 248, 0.1)"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
+              </span>
+              Email
+            </span>
+            <span class="arrow">→</span>
+          </a>
         </div>
       </div>
-      <div style="margin-top: 40px; text-align: center; padding: 0 20px;">
-        <small style="font-size: 0.5prem">This site is owned and operated by Nay Zaw Oo.(nayzawoo.me@gmail.com)</small>
-      </div>
+
+      <!-- FOOTER -->
+      <footer class="footer reveal reveal-d4">
+        <p>© 2026 Nay Zaw Oo · Built with ♥</p>
+      </footer>
     </div>
   </body>
 </html>
