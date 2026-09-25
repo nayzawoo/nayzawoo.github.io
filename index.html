@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nay Zaw Oo — Software Developer</title>
+    <title>Nay Zaw Oo — Full Stack Developer</title>
     <meta
       name="description"
-      content="Nay Zaw Oo — Software Developer. Building clean, performant software."
+      content="Nay Zaw Oo — Full Stack Developer. Building clean, performant software."
     />
     <meta name="theme-color" content="#030014" />
     <link
@@ -29,11 +29,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&family=Outfit:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&family=Outfit:wght@500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <style>
-      /* ── Reset & Base Styles ──────────────────────────────── */
       *,
       *::before,
       *::after {
@@ -43,37 +42,31 @@
       }
 
       :root {
-        --bg: #030014;
-        --surface: rgba(10, 10, 20, 0.4);
+        --bg: #050014;
+        --surface: rgba(16, 16, 28, 0.62);
         --surface-border: rgba(255, 255, 255, 0.08);
-        --surface-hover: rgba(20, 20, 35, 0.6);
-        --border-glow: rgba(99, 102, 241, 0.15);
-
         --text: #f4f4f7;
         --text-dim: #a1a1aa;
         --text-muted: #71717a;
-
-        --primary: #6366f1; /* Indigo */
-        --primary-glow: rgba(99, 102, 241, 0.2);
-        --secondary: #10b981; /* Emerald */
-        --secondary-glow: rgba(16, 185, 129, 0.2);
-        --tertiary: #a855f7; /* Purple */
-        --tertiary-glow: rgba(168, 85, 247, 0.2);
-
-        --font-heading: 'Outfit', sans-serif;
-        --font-body: 'Plus Jakarta Sans', sans-serif;
-        --font-mono: 'JetBrains Mono', monospace;
+        --primary: #818cf8;
+        --primary-glow: rgba(129, 140, 248, 0.22);
+        --secondary: #34d399;
+        --font-heading: "Outfit", sans-serif;
+        --font-body: "Plus Jakarta Sans", sans-serif;
+        --font-mono: "JetBrains Mono", monospace;
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       html {
         scroll-behavior: smooth;
+        scroll-padding-bottom: 108px;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        color-scheme: dark;
         scrollbar-width: thin;
-        scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+        scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
       }
 
-      /* Custom scrollbar */
       ::-webkit-scrollbar {
         width: 6px;
       }
@@ -81,64 +74,89 @@
         background: transparent;
       }
       ::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 99px;
       }
-      ::-webkit-scrollbar-thumb:hover {
-        background: rgba(99, 102, 241, 0.3);
+
+      ::selection {
+        background: rgba(129, 140, 248, 0.32);
+        color: #fff;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 3px;
       }
 
       body {
         font-family: var(--font-body);
-        background: radial-gradient(circle at top, #0c0824 0%, #030014 100%);
+        background: var(--bg);
         color: var(--text);
         line-height: 1.6;
         min-height: 100vh;
         overflow-x: hidden;
-        position: relative;
       }
 
+      .bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(900px 520px at 50% -10%, rgba(99, 102, 241, 0.22), transparent 60%),
+          radial-gradient(640px 420px at 100% 20%, rgba(168, 85, 247, 0.1), transparent 55%),
+          radial-gradient(560px 380px at 0% 70%, rgba(16, 185, 129, 0.08), transparent 50%),
+          #050014;
+      }
 
+      .bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+        background-size: 56px 56px;
+        mask-image: radial-gradient(ellipse at 50% 20%, black 20%, transparent 72%);
+        opacity: 0.35;
+      }
 
-      /* ── Layout Container ─────────────────────────────────── */
       .container {
         position: relative;
-        z-index: 2;
-        max-width: 640px;
+        z-index: 1;
+        max-width: 680px;
         margin: 0 auto;
-        padding: 80px 24px 120px;
+        padding: 72px 24px 128px;
       }
 
-      /* ── Section Title Standard ───────────────────────────── */
       .section {
-        margin-bottom: 56px;
+        margin-bottom: 52px;
       }
 
       .section-title {
         font-family: var(--font-heading);
-        font-size: 0.8rem;
-        font-weight: 700;
+        font-size: 0.72rem;
+        font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.18em;
-        color: var(--text-dim);
-        margin-bottom: 20px;
-        padding-left: 2px;
+        letter-spacing: 0.16em;
+        color: var(--text-muted);
+        margin-bottom: 16px;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 12px;
       }
 
       .section-title::after {
         content: "";
-        flex-grow: 1;
+        flex: 1;
         height: 1px;
-        background: linear-gradient(to right, rgba(255, 255, 255, 0.08), transparent);
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent);
       }
 
-      /* ── Hero / Profile Section ───────────────────────────── */
+      /* Hero */
       .hero {
         text-align: center;
-        margin-bottom: 56px;
+        margin-bottom: 48px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -146,192 +164,151 @@
 
       .avatar-ring {
         position: relative;
-        display: inline-block;
-        margin-bottom: 24px;
+        margin-bottom: 22px;
+        padding: 3px;
         border-radius: 50%;
-        padding: 4px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-      }
-
-      .avatar-ring::before {
-        content: "";
-        position: absolute;
-        inset: -2px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--tertiary) 100%);
-        z-index: 0;
-        opacity: 0.85;
+        background: linear-gradient(135deg, #818cf8, #34d399 48%, #c084fc);
       }
 
       .avatar {
-        position: relative;
-        z-index: 1;
-        width: 112px;
-        height: 112px;
-        border-radius: 50%;
-        border: 4px solid #030014;
-        object-fit: cover;
         display: block;
-        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-
-      .avatar-ring:hover .avatar {
-        transform: scale(1.05);
+        width: 104px;
+        height: 104px;
+        border-radius: 50%;
+        border: 3px solid #050014;
+        object-fit: cover;
+        background: #111;
       }
 
       .hero h1 {
         font-family: var(--font-heading);
-        font-size: 3rem;
+        font-size: clamp(2.1rem, 6vw, 2.75rem);
         font-weight: 800;
-        letter-spacing: -0.03em;
-        line-height: 1.1;
-        background: linear-gradient(135deg, #ffffff 20%, #a5b4fc 60%, #6366f1 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 6px;
+        letter-spacing: -0.04em;
+        line-height: 1.05;
+        color: #fff;
+        margin-bottom: 8px;
       }
 
       .hero .tagline {
         color: var(--text-dim);
-        font-size: 1.05rem;
-        font-weight: 400;
-        letter-spacing: -0.01em;
-        margin-bottom: 16px;
+        font-size: 1rem;
+        font-weight: 500;
+        margin-bottom: 18px;
       }
 
       .status-badge {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 8px 16px;
-        border-radius: 100px;
-        background: rgba(16, 185, 129, 0.08);
-        border: 1px solid rgba(16, 185, 129, 0.2);
+        padding: 7px 13px;
+        border-radius: 99px;
+        background: rgba(52, 211, 153, 0.08);
+        border: 1px solid rgba(52, 211, 153, 0.22);
         color: var(--secondary);
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         font-weight: 600;
-        letter-spacing: 0.03em;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       }
 
       .status-dot {
         position: relative;
-        width: 8px;
-        height: 8px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
         background: var(--secondary);
-        display: inline-block;
       }
 
       .pulse-ring {
         position: absolute;
-        inset: -4px;
+        inset: -5px;
         border-radius: 50%;
-        border: 2px solid var(--secondary);
-        animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        border: 1.5px solid var(--secondary);
+        animation: pulse-ring 2.2s ease-out infinite;
       }
 
       @keyframes pulse-ring {
         0% {
-          transform: scale(0.5);
-          opacity: 0.85;
+          transform: scale(0.55);
+          opacity: 0.7;
         }
-        80%, 100% {
-          transform: scale(2.2);
+        100% {
+          transform: scale(2);
           opacity: 0;
         }
       }
 
-      /* ── Terminal Card ────────────────────────────────────── */
+      /* Terminal */
       .card {
         background: var(--surface);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border: 1px solid var(--surface-border);
-        border-radius: 16px;
-        padding: 24px;
-        margin-bottom: 24px;
-        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), inset 0 1px 0px rgba(255, 255, 255, 0.05);
-      }
-
-      .card:hover {
-        border-color: rgba(255, 255, 255, 0.15);
-        box-shadow: 0 15px 40px rgba(99, 102, 241, 0.08), inset 0 1px 0px rgba(255, 255, 255, 0.15);
-        transform: translateY(-2px);
+        border-radius: 18px;
+        padding: 0;
+        margin-bottom: 52px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+        overflow: hidden;
       }
 
       .card-header {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        gap: 10px;
+        padding: 12px 14px;
+        background: rgba(255, 255, 255, 0.02);
         border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        padding-bottom: 14px;
-        margin-bottom: 18px;
       }
 
-      .card-header .dots {
+      .dots {
         display: flex;
         gap: 6px;
+        flex-shrink: 0;
       }
 
-      .card-header .dots span {
-        width: 12px;
-        height: 12px;
+      .dots button {
+        width: 11px;
+        height: 11px;
+        border: 0;
         border-radius: 50%;
-        position: relative;
+        padding: 0;
         cursor: pointer;
+        background: #ef4444;
       }
 
-      .card-header .dots span::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: 50%;
-        opacity: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 8px;
-        font-weight: 700;
-        color: rgba(0, 0, 0, 0.5);
-        transition: opacity 0.2s ease;
+      .dots .minimize-dot {
+        background: #eab308;
       }
-
-      .card-header:hover .dots span::after {
-        opacity: 1;
+      .dots .maximize-dot {
+        background: #22c55e;
       }
-
-      .card-header .dots .close-dot { background: #ef4444; }
-      .card-header .dots .close-dot::after { content: "×"; }
-      .card-header .dots .minimize-dot { background: #eab308; }
-      .card-header .dots .minimize-dot::after { content: "−"; line-height: 8px; }
-      .card-header .dots .maximize-dot { background: #22c55e; }
-      .card-header .dots .maximize-dot::after { content: "+"; }
 
       .terminal-tabs {
         display: flex;
         gap: 4px;
-        margin: 0 auto 0 16px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        min-width: 0;
+      }
+
+      .terminal-tabs::-webkit-scrollbar {
+        display: none;
       }
 
       .terminal-tab {
         background: transparent;
         border: 1px solid transparent;
-        color: var(--text-dim);
+        color: var(--text-muted);
         font-family: var(--font-mono);
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         font-weight: 500;
-        padding: 4px 10px;
-        border-radius: 6px;
+        padding: 5px 9px;
+        border-radius: 8px;
         cursor: pointer;
-        display: flex;
+        display: inline-flex;
         align-items: center;
         gap: 6px;
-        transition: all 0.25s ease;
+        white-space: nowrap;
+        transition: background 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
       }
 
       .terminal-tab:hover {
@@ -341,26 +318,17 @@
 
       .terminal-tab.active {
         color: var(--primary);
-        background: rgba(99, 102, 241, 0.08);
-        border-color: rgba(99, 102, 241, 0.15);
-      }
-
-      .tab-icon {
-        opacity: 0.8;
-      }
-
-      .terminal-username {
-        font-family: var(--font-mono);
-        font-size: 0.7rem;
-        color: var(--text-muted);
+        background: rgba(129, 140, 248, 0.1);
+        border-color: rgba(129, 140, 248, 0.18);
       }
 
       .terminal-body {
         font-family: var(--font-mono);
-        font-size: 0.85rem;
-        line-height: 1.8;
+        font-size: 0.82rem;
+        line-height: 1.75;
         color: var(--text-dim);
-        min-height: 160px;
+        min-height: 188px;
+        padding: 18px 20px 22px;
         transition: opacity 0.15s ease;
       }
 
@@ -391,12 +359,11 @@
       .terminal-link {
         color: var(--primary);
         text-decoration: none;
-        border-bottom: 1px dashed rgba(99, 102, 241, 0.4);
-        transition: border-bottom-color 0.2s;
+        border-bottom: 1px dashed rgba(129, 140, 248, 0.4);
       }
 
       .terminal-link:hover {
-        border-bottom-color: var(--primary);
+        border-bottom-style: solid;
       }
 
       .terminal-line {
@@ -406,10 +373,10 @@
 
       .cursor-blink {
         display: inline-block;
-        width: 8px;
-        height: 16px;
+        width: 7px;
+        height: 14px;
         background: var(--primary);
-        margin-left: 4px;
+        margin-left: 3px;
         vertical-align: text-bottom;
         animation: blink 1s step-end infinite;
       }
@@ -420,28 +387,22 @@
         }
       }
 
-      /* ── Skills & Tech Stack ───────────────────────────────── */
-      .skills-categories {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-
-      .skill-cat-card {
+      /* Skills */
+      .skills-panel {
         background: var(--surface);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border: 1px solid var(--surface-border);
-        border-radius: 14px;
-        padding: 18px 20px;
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        box-shadow: inset 0 1px 0px rgba(255, 255, 255, 0.02);
+        border-radius: 18px;
+        overflow: hidden;
       }
 
-      .skill-cat-card:hover {
-        border-color: rgba(255, 255, 255, 0.12);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      .skill-cat {
+        padding: 18px 20px;
+      }
+
+      .skill-cat + .skill-cat {
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
       }
 
       .cat-header {
@@ -449,16 +410,14 @@
         align-items: center;
         gap: 8px;
         font-family: var(--font-heading);
-        font-size: 0.85rem;
+        font-size: 0.82rem;
         font-weight: 600;
         color: var(--text-dim);
-        margin-bottom: 14px;
-        letter-spacing: 0.02em;
+        margin-bottom: 12px;
       }
 
       .cat-icon {
         color: var(--primary);
-        opacity: 0.85;
       }
 
       .tech-grid {
@@ -470,24 +429,21 @@
       .tech-badge {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        padding: 8px 14px;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.04);
-        font-size: 0.8rem;
+        gap: 7px;
+        padding: 6px 11px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        font-size: 0.78rem;
         font-weight: 500;
         color: var(--text-dim);
-        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        cursor: default;
+        transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease);
       }
 
       .tech-badge:hover {
-        color: #ffffff;
+        color: #fff;
         border-color: var(--brand-color);
         background: var(--brand-color-soft);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px var(--brand-color-soft);
       }
 
       .tech-badge .dot {
@@ -497,123 +453,91 @@
         flex-shrink: 0;
       }
 
-
-
-      /* ── Connect Section ───────────────────────────────────── */
+      /* Connect */
       .connect-grid {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 10px;
       }
 
       .connect-card {
         display: flex;
         align-items: center;
-        gap: 16px;
+        gap: 14px;
         background: var(--surface);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border: 1px solid var(--surface-border);
-        border-radius: 14px;
-        padding: 16px 20px;
+        border-radius: 16px;
+        padding: 14px 16px;
         text-decoration: none;
         color: var(--text);
-        position: relative;
-        overflow: hidden;
-        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        box-shadow: inset 0 1px 0px rgba(255, 255, 255, 0.02);
-      }
-
-      .connect-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at 100% 50%, var(--c-glow) 0%, transparent 60%);
-        opacity: 0;
-        transition: opacity 0.35s ease;
-        pointer-events: none;
+        transition: border-color 0.25s var(--ease), transform 0.25s var(--ease), background 0.25s var(--ease);
       }
 
       .connect-card:hover {
-        transform: translateX(6px);
-        border-color: var(--c-color);
-        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
-      }
-
-      .connect-card:hover::before {
-        opacity: 1;
+        transform: translateY(-1px);
+        border-color: color-mix(in srgb, var(--c-color) 55%, transparent);
+        background: rgba(22, 22, 36, 0.72);
       }
 
       .connect-icon-wrapper {
-        width: 44px;
-        height: 44px;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.04);
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
         display: flex;
         align-items: center;
         justify-content: center;
         color: var(--c-color);
-        transition: all 0.3s ease;
         flex-shrink: 0;
       }
 
-      .connect-card:hover .connect-icon-wrapper {
-        background: var(--c-color);
-        color: #030014;
-        box-shadow: 0 0 15px var(--c-glow);
-      }
-
       .connect-info {
-        flex-grow: 1;
+        flex: 1;
+        min-width: 0;
       }
 
       .connect-info h4 {
         font-family: var(--font-heading);
-        font-size: 0.95rem;
+        font-size: 0.92rem;
         font-weight: 600;
-        color: var(--text);
-        margin-bottom: 2px;
+        margin-bottom: 1px;
       }
 
       .connect-info p {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         color: var(--text-dim);
       }
 
       .connect-arrow {
-        font-size: 1.1rem;
         color: var(--text-muted);
-        transition: all 0.3s ease;
+        font-size: 1rem;
+        transition: transform 0.25s var(--ease), color 0.25s var(--ease);
       }
 
       .connect-card:hover .connect-arrow {
         color: var(--text);
-        transform: translateX(4px);
+        transform: translateX(3px);
       }
 
-      /* ── Scroll Reveal Animations ────────────────────────── */
-      .reveal {
-        opacity: 1;
-        transform: none;
-      }
-
-      /* ── Floating Navigation Dock ─────────────────────────── */
+      /* Dock */
       .floating-dock {
         position: fixed;
-        bottom: 24px;
+        bottom: max(16px, env(safe-area-inset-bottom));
         left: 50%;
         transform: translateX(-50%);
         display: flex;
         align-items: center;
-        gap: 12px;
-        background: rgba(10, 10, 20, 0.6);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        gap: 6px;
+        background: rgba(10, 10, 18, 0.72);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        padding: 10px 16px;
-        border-radius: 100px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        padding: 7px;
+        border-radius: 999px;
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
         z-index: 100;
       }
 
@@ -622,47 +546,40 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
         color: var(--text-dim);
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.04);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         text-decoration: none;
+        transition: background 0.2s var(--ease), color 0.2s var(--ease);
       }
 
       .dock-item:hover {
-        color: #ffffff;
-        background: rgba(255, 255, 255, 0.08);
-        border-color: var(--primary);
-        transform: scale(1.15) translateY(-4px);
-        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        color: #fff;
+        background: rgba(255, 255, 255, 0.06);
       }
 
       .dock-item.active {
-        color: #ffffff;
-        background: var(--primary);
-        border-color: var(--primary);
-        box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        color: #fff;
+        background: rgba(129, 140, 248, 0.9);
       }
 
       .dock-item .tooltip {
         position: absolute;
-        bottom: 60px;
+        bottom: 50px;
         left: 50%;
-        transform: translateX(-50%) translateY(5px);
-        background: rgba(10, 10, 15, 0.95);
+        transform: translateX(-50%) translateY(4px);
+        background: #12121a;
         border: 1px solid rgba(255, 255, 255, 0.1);
-        color: #ffffff;
-        padding: 6px 12px;
-        border-radius: 8px;
-        font-size: 0.75rem;
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 0.7rem;
         font-weight: 500;
         white-space: nowrap;
         pointer-events: none;
         opacity: 0;
-        transition: all 0.2s ease;
+        transition: opacity 0.15s ease, transform 0.15s ease;
       }
 
       .dock-item:hover .tooltip {
@@ -670,78 +587,93 @@
         transform: translateX(-50%) translateY(0);
       }
 
-      /* ── Footer ────────────────────────────────────────────── */
       .footer {
         text-align: center;
-        margin-top: 48px;
-        padding-top: 24px;
-        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        margin-top: 8px;
         color: var(--text-muted);
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         font-family: var(--font-mono);
       }
 
-      /* ── Responsive Styling ────────────────────────────────── */
-      @media (max-width: 480px) {
-        .container {
-          padding: 60px 16px 100px;
-        }
+      .reveal {
+        opacity: 0;
+        transform: translateY(12px);
+        animation: reveal 0.7s var(--ease) forwards;
+      }
 
-        .hero h1 {
-          font-size: 2.25rem;
-        }
+      .hero.reveal { animation-delay: 0.05s; }
+      #about.reveal { animation-delay: 0.12s; }
+      #skills.reveal { animation-delay: 0.18s; }
+      #connect.reveal { animation-delay: 0.24s; }
+      .footer.reveal { animation-delay: 0.3s; }
 
-        .avatar {
-          width: 96px;
-          height: 96px;
+      @keyframes reveal {
+        to {
+          opacity: 1;
+          transform: none;
         }
+      }
 
-        .card {
-          padding: 18px;
-        }
-
-        .terminal-tabs {
-          margin-left: 8px;
-          gap: 2px;
+      @media (max-width: 560px) {
+        .tab-label {
+          display: none;
         }
 
         .terminal-tab {
-          padding: 4px 6px;
-          font-size: 0.7rem;
+          padding: 6px 8px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 52px 16px 112px;
+        }
+
+        .avatar {
+          width: 88px;
+          height: 88px;
         }
 
         .terminal-body {
-          font-size: 0.78rem;
-          min-height: 200px;
-        }
-
-        .floating-dock {
-          bottom: 16px;
-          padding: 8px 12px;
-          gap: 8px;
+          font-size: 0.75rem;
+          padding: 16px;
         }
 
         .dock-item {
           width: 38px;
           height: 38px;
         }
+      }
 
-        .project-card {
-          padding: 18px;
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+
+        html {
+          scroll-behavior: auto;
+        }
+
+        .reveal {
+          opacity: 1;
+          transform: none;
         }
       }
     </style>
   </head>
-
+  <body>
+    <div class="bg" aria-hidden="true"></div>
 
     <div class="container">
-      <!-- HERO -->
       <section class="hero reveal" id="hero">
         <div class="avatar-ring">
           <img src="https://avatars.githubusercontent.com/u/20064811?v=4" alt="Nay Zaw Oo" class="avatar" />
         </div>
         <h1>Nay Zaw Oo</h1>
-        <p class="tagline">Software Developer</p>
+        <p class="tagline">Full Stack Developer</p>
         <div class="status-badge">
           <span class="status-dot">
             <span class="pulse-ring"></span>
@@ -750,372 +682,289 @@
         </div>
       </section>
 
-      <!-- ABOUT - Terminal Card -->
       <div class="card reveal" id="about">
         <div class="card-header">
           <div class="dots">
-            <span class="close-dot" onclick="switchTerminalTab('about')"></span>
-            <span class="minimize-dot" onclick="switchTerminalTab('skills')"></span>
-            <span class="maximize-dot" onclick="switchTerminalTab('contact')"></span>
+            <button type="button" class="close-dot" aria-label="About" onclick="switchTerminalTab('about')"></button>
+            <button type="button" class="minimize-dot" aria-label="Skills" onclick="switchTerminalTab('skills')"></button>
+            <button type="button" class="maximize-dot" aria-label="Contact" onclick="switchTerminalTab('contact')"></button>
           </div>
           <div class="terminal-tabs">
-            <button class="terminal-tab active" onclick="switchTerminalTab('about')">
-              <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-              about.sh
+            <button type="button" class="terminal-tab active" data-tab="about" onclick="switchTerminalTab('about')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span class="tab-label">about.sh</span>
             </button>
-            <button class="terminal-tab" onclick="switchTerminalTab('skills')">
-              <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-              skills.json
+            <button type="button" class="terminal-tab" data-tab="skills" onclick="switchTerminalTab('skills')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              <span class="tab-label">skills.json</span>
             </button>
-            <button class="terminal-tab" onclick="switchTerminalTab('contact')">
-              <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-              contact.txt
+            <button type="button" class="terminal-tab" data-tab="contact" onclick="switchTerminalTab('contact')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <span class="tab-label">contact.txt</span>
             </button>
-            <button class="terminal-tab" onclick="switchTerminalTab('wasm')">
-              <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              wasm_bench.sh
+            <button type="button" class="terminal-tab" data-tab="wasm" onclick="switchTerminalTab('wasm')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span class="tab-label">wasm_bench.sh</span>
             </button>
           </div>
         </div>
-        <div class="terminal-body" id="terminalContent">
-          <!-- Dynamically populated via JS -->
-        </div>
+        <div class="terminal-body" id="terminalContent"></div>
       </div>
 
-      <!-- SKILLS -->
       <section id="skills" class="section reveal">
         <p class="section-title">Core Technologies</p>
-        <div class="skills-categories">
-          <!-- Backend & Database -->
-          <div class="skill-cat-card">
+        <div class="skills-panel">
+          <div class="skill-cat">
             <div class="cat-header">
-              <svg xmlns="http://www.w3.org/2000/svg" class="cat-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="cat-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
               Backend & Systems
             </div>
             <div class="tech-grid">
-              <span class="tech-badge" data-color="#777bb4">
-                <span class="dot" style="background: #777bb4"></span>PHP
-              </span>
-              <span class="tech-badge" data-color="#ff2d20">
-                <span class="dot" style="background: #ff2d20"></span>Laravel
-              </span>
-              <span class="tech-badge" data-color="#336791">
-                <span class="dot" style="background: #336791"></span>PostgreSQL
-              </span>
-              <span class="tech-badge" data-color="#ff4154">
-                <span class="dot" style="background: #ff4154"></span>Redis
-              </span>
+              <span class="tech-badge" data-color="#777bb4"><span class="dot" style="background:#777bb4"></span>PHP</span>
+              <span class="tech-badge" data-color="#ff2d20"><span class="dot" style="background:#ff2d20"></span>Laravel</span>
+              <span class="tech-badge" data-color="#336791"><span class="dot" style="background:#336791"></span>PostgreSQL</span>
+              <span class="tech-badge" data-color="#ff4154"><span class="dot" style="background:#ff4154"></span>Redis</span>
             </div>
           </div>
-
-          <!-- Frontend & Design -->
-          <div class="skill-cat-card">
+          <div class="skill-cat">
             <div class="cat-header">
-              <svg xmlns="http://www.w3.org/2000/svg" class="cat-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="cat-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
               Frontend & Design
             </div>
             <div class="tech-grid">
-              <span class="tech-badge" data-color="#3178c6">
-                <span class="dot" style="background: #3178c6"></span>TypeScript
-              </span>
-              <span class="tech-badge" data-color="#61dafb">
-                <span class="dot" style="background: #61dafb"></span>React
-              </span>
-              <span class="tech-badge" data-color="#4fc08d">
-                <span class="dot" style="background: #4fc08d"></span>Vue.js
-              </span>
-              <span class="tech-badge" data-color="#f7df1e">
-                <span class="dot" style="background: #f7df1e"></span>JavaScript
-              </span>
-              <span class="tech-badge" data-color="#38bdf8">
-                <span class="dot" style="background: #38bdf8"></span>Tailwind CSS
-              </span>
+              <span class="tech-badge" data-color="#3178c6"><span class="dot" style="background:#3178c6"></span>TypeScript</span>
+              <span class="tech-badge" data-color="#61dafb"><span class="dot" style="background:#61dafb"></span>React</span>
+              <span class="tech-badge" data-color="#4fc08d"><span class="dot" style="background:#4fc08d"></span>Vue.js</span>
+              <span class="tech-badge" data-color="#f7df1e"><span class="dot" style="background:#f7df1e"></span>JavaScript</span>
+              <span class="tech-badge" data-color="#38bdf8"><span class="dot" style="background:#38bdf8"></span>Tailwind CSS</span>
             </div>
           </div>
-
-          <!-- Mobile & Others -->
-          <div class="skill-cat-card">
+          <div class="skill-cat">
             <div class="cat-header">
-              <svg xmlns="http://www.w3.org/2000/svg" class="cat-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" class="cat-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
               Mobile & Platforms
             </div>
             <div class="tech-grid">
-              <span class="tech-badge" data-color="#02569b">
-                <span class="dot" style="background: #02569b"></span>Flutter
-              </span>
-              <span class="tech-badge" data-color="#0175c2">
-                <span class="dot" style="background: #0175c2"></span>Dart
-              </span>
+              <span class="tech-badge" data-color="#02569b"><span class="dot" style="background:#02569b"></span>Flutter</span>
+              <span class="tech-badge" data-color="#0175c2"><span class="dot" style="background:#0175c2"></span>Dart</span>
             </div>
           </div>
         </div>
       </section>
 
-
-      <!-- CONNECT -->
       <section id="connect" class="section reveal">
         <p class="section-title">Connect</p>
         <div class="connect-grid">
-          <!-- GitHub -->
-          <a href="https://github.com/nayzawoo" target="_blank" rel="noopener noreferrer" class="connect-card" style="--c-color: #ffffff; --c-glow: rgba(255, 255, 255, 0.1);">
+          <a href="https://github.com/nayzawoo" target="_blank" rel="noopener noreferrer" class="connect-card" style="--c-color:#e4e4e7;">
             <div class="connect-icon-wrapper">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
               </svg>
             </div>
             <div class="connect-info">
               <h4>GitHub</h4>
-              <p>Explore my open-source contributions & codebases.</p>
+              <p>Open-source work and codebases</p>
             </div>
-            <span class="connect-arrow">→</span>
+            <span class="connect-arrow" aria-hidden="true">→</span>
           </a>
 
-          <!-- LinkedIn -->
-          <a href="https://linkedin.com/in/nayzawoo" target="_blank" rel="noopener noreferrer" class="connect-card" style="--c-color: #0a66c2; --c-glow: rgba(10, 102, 194, 0.2);">
+          <a href="https://linkedin.com/in/nayzawoo" target="_blank" rel="noopener noreferrer" class="connect-card" style="--c-color:#5aa7ff;">
             <div class="connect-icon-wrapper">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
               </svg>
             </div>
             <div class="connect-info">
               <h4>LinkedIn</h4>
-              <p>Connect with me professionally.</p>
+              <p>Connect professionally</p>
             </div>
-            <span class="connect-arrow">→</span>
+            <span class="connect-arrow" aria-hidden="true">→</span>
           </a>
 
-          <!-- Email -->
-          <a href="mailto:nayzawoo.me@gmail.com" class="connect-card" style="--c-color: var(--primary); --c-glow: var(--primary-glow);">
+          <a href="mailto:nayzawoo.me@gmail.com" class="connect-card" style="--c-color:#818cf8;">
             <div class="connect-icon-wrapper">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
               </svg>
             </div>
             <div class="connect-info">
               <h4>Email</h4>
-              <p>Reach out directly at nayzawoo.me@gmail.com</p>
+              <p>nayzawoo.me@gmail.com</p>
             </div>
-            <span class="connect-arrow">→</span>
+            <span class="connect-arrow" aria-hidden="true">→</span>
           </a>
         </div>
       </section>
 
-      <!-- FOOTER -->
       <footer class="footer reveal">
-        <p>© 2026 Nay Zaw Oo · Blazing Fast & Powered by WebAssembly</p>
+        <p>© 2026 Nay Zaw Oo</p>
       </footer>
     </div>
 
-    <!-- Floating Dock Navigation -->
-    <nav class="floating-dock" id="floatingDock">
-      <a href="#hero" class="dock-item active" title="Home">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <nav class="floating-dock" id="floatingDock" aria-label="Page sections">
+      <a href="#hero" class="dock-item active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <span class="tooltip">Home</span>
       </a>
-      <a href="#about" class="dock-item" title="About">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <a href="#about" class="dock-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         <span class="tooltip">About</span>
       </a>
-      <a href="#skills" class="dock-item" title="Skills">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      <a href="#skills" class="dock-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
         <span class="tooltip">Skills</span>
       </a>
-
-      <a href="#connect" class="dock-item" title="Connect">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <a href="#connect" class="dock-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         <span class="tooltip">Connect</span>
       </a>
     </nav>
 
-    <!-- Interactive script triggers -->
     <script>
-      /* ── WebAssembly & Benchmark Logic ──────────────────────── */
       let wasmFib = null;
 
-      // Self-contained Wasm Loader (Base64 Binary Array)
       async function initWasm() {
         try {
           const wasmBase64 = "AGFzbQEAAAABBgFgAX8BfwMCAQAHBwEDZmliAAAKHgEcACAAQQJJBH8gAAUgAEEBaxAAIABBAmsQAGoLCw==";
           const binaryString = window.atob(wasmBase64);
-          const len = binaryString.length;
-          const bytes = new Uint8Array(len);
-          for (let i = 0; i < len; i++) {
+          const bytes = new Uint8Array(binaryString.length);
+          for (let i = 0; i < binaryString.length; i++) {
             bytes[i] = binaryString.charCodeAt(i);
           }
           const results = await WebAssembly.instantiate(bytes.buffer);
           wasmFib = results.instance.exports.fib;
-          console.log("WebAssembly: Active & Loaded.");
         } catch (e) {
           console.error("WebAssembly initialization failed:", e);
         }
       }
 
-      // Pure JS recursive fibonacci
       function jsFib(n) {
         if (n < 2) return n;
         return jsFib(n - 1) + jsFib(n - 2);
       }
 
       function runBenchmark() {
-        const container = document.getElementById('terminalContent');
+        const container = document.getElementById("terminalContent");
         if (!container) return;
 
-        container.innerHTML = `        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">./wasm_bench.sh</span></span>
+        container.innerHTML = `
+        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">./wasm_bench.sh</span></span>
         <span class="terminal-line"><span class="comment"># Compiling benchmark payload...</span></span>
-        <span class="terminal-line"><span class="output">WebAssembly Binary Loaded: OK (100% Inline)</span></span>
-        <span class="terminal-line"><span class="comment"># Running recursive Fibonacci(35) benchmark...</span></span>
-        <span class="terminal-line"><span class="comment"># Computing JS vs Wasm speed...</span></span>
+        <span class="terminal-line"><span class="output">WebAssembly Binary Loaded: OK</span></span>
+        <span class="terminal-line"><span class="comment"># Running Fibonacci(35)…</span></span>
         <span class="terminal-line">&nbsp;</span>
-        <span class="terminal-line"><span class="output" style="color: var(--primary);">Benchmarking in progress, please wait...</span></span>`;
+        <span class="terminal-line"><span class="output" style="color: var(--primary);">Benchmarking…</span></span>`;
 
         setTimeout(() => {
           if (!wasmFib) {
-            container.innerHTML += `<span class="terminal-line"><span class="output" style="color: #ef4444">Error: WebAssembly module failed to compile!</span></span>`;
+            container.innerHTML += `<span class="terminal-line"><span class="output" style="color:#ef4444">Error: WebAssembly module failed to compile.</span></span>`;
             return;
           }
 
           const n = 35;
-
-          // JS execution time
           const t0 = performance.now();
           const jsVal = jsFib(n);
-          const t1 = performance.now();
-          const jsTime = (t1 - t0).toFixed(2);
-
-          // Wasm execution time
+          const jsTime = (performance.now() - t0).toFixed(2);
           const t2 = performance.now();
           const wasmVal = wasmFib(n);
-          const t3 = performance.now();
-          const wasmTime = (t3 - t2).toFixed(2);
-
+          const wasmTime = (performance.now() - t2).toFixed(2);
           const speedup = (jsTime / wasmTime).toFixed(1);
 
-          container.innerHTML = `        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">./wasm_bench.sh</span></span>
-        <span class="terminal-line"><span class="comment"># Benchmark results for Fibonacci(${n}) recursive task:</span></span>
-        <span class="terminal-line"><span class="output">-----------------------------------------------</span></span>
-        <span class="terminal-line"><span class="output"><span class="key">JavaScript Time:</span>   ${jsTime} ms  (Result: ${jsVal})</span></span>
-        <span class="terminal-line"><span class="output"><span class="key">WebAssembly Time:</span>  ${wasmTime} ms  (Result: ${wasmVal})</span></span>
-        <span class="terminal-line"><span class="output">-----------------------------------------------</span></span>
-        <span class="terminal-line"><span class="output" style="color: var(--secondary); font-weight: 700;">Verdict: WebAssembly is ${speedup}x faster than pure JavaScript!</span></span>
+          container.innerHTML = `
+        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">./wasm_bench.sh</span></span>
+        <span class="terminal-line"><span class="comment"># Fibonacci(${n})</span></span>
+        <span class="terminal-line"><span class="output"><span class="key">JavaScript</span>   ${jsTime} ms  (${jsVal})</span></span>
+        <span class="terminal-line"><span class="output"><span class="key">WebAssembly</span>  ${wasmTime} ms  (${wasmVal})</span></span>
+        <span class="terminal-line"><span class="output" style="color: var(--secondary);">Wasm is ${speedup}x faster</span></span>
         <span class="terminal-line">&nbsp;</span>
         <span class="terminal-line"><span class="prompt">❯</span> <span class="cursor-blink"></span></span>`;
         }, 120);
       }
 
-      /* ── Dynamic Brand Pill Glowing Effects ─────────────────── */
-      document.querySelectorAll('.tech-badge').forEach(badge => {
-        const color = badge.getAttribute('data-color');
-        if (color) {
-          badge.style.setProperty('--brand-color', color);
-          let r = parseInt(color.slice(1, 3), 16);
-          let g = parseInt(color.slice(3, 5), 16);
-          let b = parseInt(color.slice(5, 7), 16);
-          badge.style.setProperty('--brand-color-soft', `rgba(${r}, ${g}, ${b}, 0.12)`);
-        }
+      document.querySelectorAll(".tech-badge").forEach((badge) => {
+        const color = badge.getAttribute("data-color");
+        if (!color) return;
+        badge.style.setProperty("--brand-color", color);
+        const r = parseInt(color.slice(1, 3), 16);
+        const g = parseInt(color.slice(3, 5), 16);
+        const b = parseInt(color.slice(5, 7), 16);
+        badge.style.setProperty("--brand-color-soft", `rgba(${r}, ${g}, ${b}, 0.12)`);
       });
 
-      /* ── Terminal Tabs Switching ───────────────────────────── */
       const terminalData = {
-        about: `        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">whoami</span></span>
+        about: `
+        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">whoami</span></span>
         <span class="terminal-line"><span class="output">Nay Zaw Oo</span></span>
         <span class="terminal-line">&nbsp;</span>
         <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">cat intro.md</span></span>
-        <span class="terminal-line"><span class="output">A Software Developer driven by craft, cleaner abstractions, and performant user interfaces. I engineer reliable full-stack applications with beautiful frontends and solid backend services.</span></span>
+        <span class="terminal-line"><span class="output">A Full Stack Developer driven by craft, cleaner abstractions, and performant user interfaces. I engineer reliable full-stack applications with beautiful frontends and solid backend services.</span></span>
         <span class="terminal-line">&nbsp;</span>
         <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">cat core_values.log</span></span>
-        <span class="terminal-line"><span class="output">· User-centric Design & Sleek Aesthetics</span></span>
-        <span class="terminal-line"><span class="output">· Modular, highly-optimized codebase</span></span>
-        <span class="terminal-line"><span class="output">· Continuous learning & open source dedication</span></span>
+        <span class="terminal-line"><span class="output">· User-centric design</span></span>
+        <span class="terminal-line"><span class="output">· Modular, optimized code</span></span>
+        <span class="terminal-line"><span class="output">· Continuous learning</span></span>
         <span class="terminal-line">&nbsp;</span>
         <span class="terminal-line"><span class="prompt">❯</span> <span class="cursor-blink"></span></span>`,
-
-        skills: `        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">cat skills.json</span></span>
+        skills: `
+        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">cat skills.json</span></span>
         <span class="terminal-line"><span class="output">{</span></span>
-        <span class="terminal-line"><span class="output">  <span class="key">"languages"</span>: ["TypeScript", "JavaScript", "PHP", "Dart", "HTML/CSS"],</span></span>
-        <span class="terminal-line"><span class="output">  <span class="key">"frameworks"</span>: ["Laravel", "React", "Vue.js", "Flutter", "Tailwind CSS"],</span></span>
-        <span class="terminal-line"><span class="output">  <span class="key">"databases"</span>: ["PostgreSQL", "MySQL", "Redis", "SQLite"],</span></span>
-        <span class="terminal-line"><span class="output">  <span class="key">"tools"</span>: ["Git", "Docker", "Vite", "Parcel", "WebSockets"]</span></span>
+        <span class="terminal-line"><span class="output">  <span class="key">"languages"</span>: ["TypeScript", "JavaScript", "PHP", "Dart"],</span></span>
+        <span class="terminal-line"><span class="output">  <span class="key">"frameworks"</span>: ["Laravel", "React", "Vue.js", "Flutter"],</span></span>
+        <span class="terminal-line"><span class="output">  <span class="key">"databases"</span>: ["PostgreSQL", "MySQL", "Redis"],</span></span>
+        <span class="terminal-line"><span class="output">  <span class="key">"tools"</span>: ["Git", "Docker", "Vite"]</span></span>
         <span class="terminal-line"><span class="output">}</span></span>
         <span class="terminal-line">&nbsp;</span>
         <span class="terminal-line"><span class="prompt">❯</span> <span class="cursor-blink"></span></span>`,
-
-        contact: `        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">curl -s https://nayzawoo.me/info</span></span>
-        <span class="terminal-line"><span class="comment"># Fetching connection details...</span></span>
-        <span class="terminal-line"><span class="output">-----------------------------------------------</span></span>
-        <span class="terminal-line"><span class="output"><span class="key">Email:</span>      <a href="mailto:nayzawoo.me@gmail.com" class="terminal-link">nayzawoo.me@gmail.com</a></span></span>
-        <span class="terminal-line"><span class="output"><span class="key">GitHub:</span>     <a href="https://github.com/nayzawoo" target="_blank" class="terminal-link">github.com/nayzawoo</a></span></span>
-        <span class="terminal-line"><span class="output"><span class="key">LinkedIn:</span>   <a href="https://linkedin.com/in/nayzawoo" target="_blank" class="terminal-link">linkedin.com/in/nayzawoo</a></span></span>
-        <span class="terminal-line"><span class="output"><span class="key">Location:</span>   Yangon, Myanmar</span></span>
-        <span class="terminal-line"><span class="output"><span class="key">Status:</span>     Available for remote work worldwide</span></span>
-        <span class="terminal-line"><span class="output">-----------------------------------------------</span></span>
+        contact: `
+        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">curl -s https://nayzawoo.me/info</span></span>
+        <span class="terminal-line"><span class="output"><span class="key">Email</span>      <a href="mailto:nayzawoo.me@gmail.com" class="terminal-link">nayzawoo.me@gmail.com</a></span></span>
+        <span class="terminal-line"><span class="output"><span class="key">GitHub</span>     <a href="https://github.com/nayzawoo" target="_blank" rel="noopener noreferrer" class="terminal-link">github.com/nayzawoo</a></span></span>
+        <span class="terminal-line"><span class="output"><span class="key">LinkedIn</span>   <a href="https://linkedin.com/in/nayzawoo" target="_blank" rel="noopener noreferrer" class="terminal-link">linkedin.com/in/nayzawoo</a></span></span>
+        <span class="terminal-line"><span class="output"><span class="key">Location</span>   Yangon, Myanmar</span></span>
+        <span class="terminal-line"><span class="output"><span class="key">Status</span>     Available for remote work</span></span>
         <span class="terminal-line">&nbsp;</span>
         <span class="terminal-line"><span class="prompt">❯</span> <span class="cursor-blink"></span></span>`
       };
 
       function switchTerminalTab(tabKey) {
-        if (tabKey === 'wasm') {
-          const tabs = document.querySelectorAll('.terminal-tab');
-          tabs.forEach((tab, index) => {
-            if (index === 3) tab.classList.add('active');
-            else tab.classList.remove('active');
-          });
+        document.querySelectorAll(".terminal-tab").forEach((tab) => {
+          tab.classList.toggle("active", tab.dataset.tab === tabKey);
+        });
+
+        if (tabKey === "wasm") {
           runBenchmark();
           return;
         }
 
-        const tabs = document.querySelectorAll('.terminal-tab');
-        const container = document.getElementById('terminalContent');
+        const container = document.getElementById("terminalContent");
         if (!container) return;
-
-        tabs.forEach((tab, index) => {
-          if ((tabKey === 'about' && index === 0) ||
-              (tabKey === 'skills' && index === 1) ||
-              (tabKey === 'contact' && index === 2)) {
-            tab.classList.add('active');
-          } else {
-            tab.classList.remove('active');
-          }
-        });
-
-        container.style.opacity = '0';
+        container.style.opacity = "0";
         setTimeout(() => {
           container.innerHTML = terminalData[tabKey];
-          container.style.opacity = '1';
+          container.style.opacity = "1";
         }, 80);
       }
 
-      /* ── Active Scroll Tracking for Floating Dock ────────────── */
-      const sections = document.querySelectorAll('section, div[id]');
-      const navItems = document.querySelectorAll('.dock-item');
+      const sections = document.querySelectorAll("section[id], #about");
+      const navItems = document.querySelectorAll(".dock-item");
 
       function trackActiveSection() {
-        let current = 'hero';
-        sections.forEach(section => {
-          const sectionTop = section.offsetTop;
-          if (window.scrollY >= (sectionTop - 260)) {
-            current = section.getAttribute('id') || current;
+        let current = "hero";
+        sections.forEach((section) => {
+          if (window.scrollY >= section.offsetTop - 240) {
+            current = section.id || current;
           }
         });
-
-        navItems.forEach(item => {
-          item.classList.remove('active');
-          if (item.getAttribute('href') === `#${current}`) {
-            item.classList.add('active');
-          }
+        navItems.forEach((item) => {
+          item.classList.toggle("active", item.getAttribute("href") === `#${current}`);
         });
       }
 
-      // Initialize
-      document.addEventListener('DOMContentLoaded', () => {
-        // Compile/init WebAssembly instantly
+      document.addEventListener("DOMContentLoaded", () => {
         initWasm();
-
-        // Initial Terminal Load
-        switchTerminalTab('about');
-
-        // Scroll tracking
-        window.addEventListener('scroll', trackActiveSection);
+        switchTerminalTab("about");
+        window.addEventListener("scroll", trackActiveSection, { passive: true });
         trackActiveSection();
       });
     </script>
