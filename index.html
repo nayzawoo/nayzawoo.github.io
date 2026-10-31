@@ -1,972 +1,190 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nay Zaw Oo — Full Stack Developer</title>
-    <meta
-      name="description"
-      content="Nay Zaw Oo — Full Stack Developer. Building clean, performant software."
-    />
-    <meta name="theme-color" content="#030014" />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="./favicon/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="./favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="./favicon/favicon-16x16.png"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&family=Outfit:wght@500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      *,
-      *::before,
-      *::after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1017">
+  <meta name="description" content="Nay Zaw Oo">
+  <title>Nay Zaw Oo</title>
+  <style>
+    :root { color-scheme: dark; background: #0b1017; }
+    * { box-sizing: border-box; }
+    html { scrollbar-color: #334050 #0b1017; }
+    body { margin: 0; min-height: 100svh; }
+    canvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    main { position: fixed; inset: 0; display: grid; place-items: center; pointer-events: none; }
+    h1 {
+      margin: 0; padding: 0 24px; color: #f1f0e9; text-align: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(42px, 8vw, 112px); font-weight: 400;
+      letter-spacing: -.055em; line-height: 1.12;
+      text-shadow: 0 2px 32px #0b1017, 0 0 90px #0b1017, 0 0 20px #0b1017;
+    }
+    main::before {
+      content: ''; position: absolute; width: min(90vw, 850px); height: 280px;
+      background: radial-gradient(ellipse, #0b1017cf, transparent 70%); z-index: -1;
+    }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    ::selection { background: #9ece6a; color: #0b1017; }
+  </style>
+</head>
+<body>
+  <canvas id="code" aria-hidden="true"></canvas>
+  <main><h1>Nay Zaw Oo</h1></main>
+  <div id="scroll-space" aria-hidden="true"></div>
+  <p class="sr-only">Decorative Omarchy source code. Scroll to explore; move your mouse to magnify. Source copyright David Heinemeier Hansson, used under the MIT license.</p>
+  <noscript><style>#scroll-space { display: none; }</style></noscript>
+  <!-- Omarchy source: https://github.com/omacom/omarchy (MIT).
+       Exact source paths and blob SHAs are preserved in the embedded data.
+       Original license follows; source is displayed as text, never executed. -->
+  <!--
+Copyright (c) David Heinemeier Hansson
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-->
+  <script id="omarchy-source" type="application/json">[
+  {
+    "path": "bin/omarchy-theme-list",
+    "sha": "318347b5fca14fea4460fd7ff90ffca222e23bcb",
+    "content": "#!/bin/bash\n\n# omarchy:summary=List available themes\n# omarchy:examples=omarchy theme list | omarchy theme set \"Tokyo Night\"\n\n{\n  find ~/.config/omarchy/themes/ -mindepth 1 -maxdepth 1 \\( -type d -o -type l \\) -printf '%f\\n'\n  find \"$OMARCHY_PATH/themes/\" -mindepth 1 -maxdepth 1 -type d -printf '%f\\n'\n} | sort -u | sed -E 's/(^|-)([a-z])/\\1\\u\\2/g; s/-/ /g'\n"
+  },
+  {
+    "path": "bin/omarchy-theme-set",
+    "sha": "771df7fa40564f32d48b686fda268a39f444d563",
+    "content": "#!/bin/bash\n\n# omarchy:summary=Apply an Omarchy theme\n# omarchy:args=\u003ctheme-name>\n# omarchy:examples=omarchy theme list | omarchy theme set \"Tokyo Night\"\n\nif [[ -z $1 ]]; then\n  echo \"Usage: omarchy-theme-set \u003ctheme-name>\"\n  exit 1\nfi\n\nCURRENT_THEME_PATH=\"$HOME/.local/state/omarchy/current/theme\"\nCURRENT_THEME_NAME_PATH=\"$HOME/.local/state/omarchy/current/theme.name\"\nNEXT_THEME_PATH=\"$HOME/.local/state/omarchy/current/next-theme\"\nCURRENT_BACKGROUND_LINK=\"$HOME/.local/state/omarchy/current/background\"\nTHEME_BACKGROUND_STATE_PATH=\"$HOME/.local/state/omarchy/theme-backgrounds\"\nBACKGROUND_TRANSITION_CACHE=\"$HOME/.cache/omarchy/background-transitions\"\nTHEME_SET_LOCK=\"${XDG_RUNTIME_DIR:-/tmp}/omarchy-theme-set.lock\"\nTHEME_SET_LOG=\"$HOME/.local/state/omarchy/theme-set.log\"\nTHEME_RETINT_LOCK=\"${XDG_RUNTIME_DIR:-/tmp}/omarchy-theme-set-retint.lock\"\nTHEME_GENERATION_PATH=\"$HOME/.local/state/omarchy/current/theme.generation\"\nUSER_THEMES_PATH=\"$HOME/.config/omarchy/themes\"\nOMARCHY_THEMES_PATH=\"$OMARCHY_PATH/themes\"\n\n# What a theme installed from a git repo may not ship, because these run code.\n# Hyprland requires a theme's hyprland.lua and gum_env.lua at login and Neovim\n# loads its neovim.lua at startup, so no .lua from such a theme is staged at all.\n# Each terminal config names the program the terminal launches, and vscode.json\n# names an extension omarchy-theme-set-vscode installs, a VS Code extension being\n# arbitrary JavaScript. Everything else a theme ships is colour and is kept.\n#\n# Adding a template for another terminal, or for another editor that loads Lua,\n# means adding it here. test/shell.d/theme-staging-test.sh fails on a generated\n# theme file that is neither denied here nor recorded there as colour-only.\nINSTALLED_THEME_DENIED=(alacritty.toml foot.ini ghostty.conf kitty.conf vscode.json)\nIGNORED_THEME_FILES=()\n\nFAILED_THEME_COMMANDS=()\n\n# Each command is an Omarchy command on the PATH this one already has, so it\n# runs directly rather than through a login shell that rereads the profile.\n# A background command would otherwise get /dev/null as stdin, and the browser\n# policy asks for a sudo password on stdin when it is a terminal.\nrun_parallel() {\n  local command index\n  local -a commands=(\"$@\") pids=()\n\n  for command in \"${commands[@]}\"; do\n    \"$command\" \u003c&0 8>&- &\n    pids+=(\"$!\")\n  done\n\n  for index in \"${!pids[@]}\"; do\n    wait \"${pids[$index]}\" || FAILED_THEME_COMMANDS+=(\"${commands[$index]}\")\n  done\n}\n\n# A retint that fails leaves one app on the old colours while the rest of the\n# desktop moved on. The switch itself still succeeded, so this never changes\n# the exit status. Name the command on stderr, and when that is the log a\n# detached run writes, in a notification too, since nobody is watching it.\nreport_failed_theme_commands() {\n  local detached=\"$1\"\n\n  (( ${#FAILED_THEME_COMMANDS[@]} > 0 )) || return 0\n\n  echo \"Theme retint failed: ${FAILED_THEME_COMMANDS[*]}\" >&2\n  if [[ $detached == \"detached\" ]]; then\n    omarchy-notification-send -u normal \"$(omarchy-i18n theme.notAppliedEverywhere)\" \\\n      \"$(omarchy-i18n theme.commandsFailed \"${FAILED_THEME_COMMANDS[*]}\" \"$THEME_SET_LOG\")\" >/dev/null 2>&1 || true\n  fi\n}\n\nshell_ipc() {\n  timeout 2 omarchy-shell \"$@\" >/dev/null 2>&1\n}\n\n# Wait, at most three seconds, while a shell call answers \u003cpending>.\nwait_for_theme_intro() {\n  local pending=\"$1\" deadline=$((SECONDS + 3))\n  shift\n  while (( SECONDS \u003c deadline )) && [[ $(omarchy-shell shell \"$@\" 2>/dev/null) == \"$pending\" ]]; do\n    sleep 0.02\n  done\n}\n\nis_video_path() {\n  [[ ${1,,} =~ \\.(mp4|m4v|mov|webm|mkv|avi)$ ]]\n}\n\nsnapshot_background_path() {\n  local background=\"$1\"\n  local name=\"$2\"\n  local snapshot extension\n\n  [[ -f $background ]] || return\n  is_video_path \"$background\" && return\n\n  mkdir -p \"$BACKGROUND_TRANSITION_CACHE\"\n  extension=${background##*.}\n  snapshot=\"$BACKGROUND_TRANSITION_CACHE/$name-$$.$extension\"\n  ln \"$background\" \"$snapshot\" 2>/dev/null || cp \"$background\" \"$snapshot\"\n  echo \"$snapshot\"\n}\n\nsnapshot_current_background() {\n  local current_background snapshot\n\n  # An interrupted intro is still moving; its final still would flash as a\n  # cover. Capture the frame already playing instead, when OWE supports it.\n  mkdir -p \"$BACKGROUND_TRANSITION_CACHE\"\n  snapshot=\"$BACKGROUND_TRANSITION_CACHE/previous-$$.ppm\"\n  if owe render \"$(jq -nc --arg path \"$snapshot\" '{cmd: \"snapshot\", path: $path}')\" >/dev/null 2>&1; then\n    echo \"$snapshot\"\n  else\n    current_background=$(readlink -f \"$CURRENT_BACKGROUND_LINK\" 2>/dev/null || true)\n    snapshot_background_path \"$current_background\" \"previous\"\n  fi\n}\n\ntheme_background_state_file() {\n  local theme=\"$1\"\n\n  [[ -n $theme && ${theme##*/} == $theme && $theme != \".\" && $theme != \"..\" ]] || return 1\n  printf '%s/%s\\n' \"$THEME_BACKGROUND_STATE_PATH\" \"$theme\"\n}\n\nremember_current_theme_background() {\n  local current_background state_file\n\n  state_file=$(theme_background_state_file \"$PREVIOUS_THEME_NAME\") || return\n  current_background=$(readlink -f \"$CURRENT_BACKGROUND_LINK\" 2>/dev/null || true)\n  [[ -f $current_background ]] || return\n\n  mkdir -p \"$THEME_BACKGROUND_STATE_PATH\"\n  printf '%s\\n' \"$current_background\" >\"$state_file\"\n}\n\nbackground_transition_uses_snapshots() {\n  local next_background=\"$1\"\n  local current_background\n\n  current_background=$(readlink -f \"$CURRENT_BACKGROUND_LINK\" 2>/dev/null || true)\n  ! is_video_path \"$current_background\" && ! is_video_path \"$next_background\"\n}\n\nchoose_theme_background() {\n  local theme_path=\"${1:-$CURRENT_THEME_PATH}\"\n  local current_theme_backgrounds=\"$CURRENT_THEME_PATH/backgrounds\"\n  local backgrounds=()\n  local current_background remembered_background state_file index next_index i\n\n  CHOSEN_THEME_BACKGROUND=\"\"\n  mapfile -d '' -t backgrounds \u003c \u003c(\n    find -L \"$HOME/.config/omarchy/backgrounds/$THEME_NAME/\" \"$theme_path/backgrounds/\" -maxdepth 1 -type f \\\n      \\( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.gif' -o -iname '*.bmp' -o -iname '*.webp' \\\n         -o -iname '*.mp4' -o -iname '*.m4v' -o -iname '*.mov' -o -iname '*.webm' -o -iname '*.mkv' -o -iname '*.avi' \\) \\\n      -print0 2>/dev/null | sort -z\n  )\n\n  (( ${#backgrounds[@]} > 0 )) || return 1\n\n  if [[ $PREVIOUS_THEME_NAME == \"$THEME_NAME\" ]]; then\n    current_background=$(readlink \"$CURRENT_BACKGROUND_LINK\" 2>/dev/null || true)\n    if [[ $theme_path != $CURRENT_THEME_PATH && ${current_background%/*} == $current_theme_backgrounds ]]; then\n      current_background=\"$theme_path/backgrounds/${current_background##*/}\"\n    fi\n\n    index=-1\n    for i in \"${!backgrounds[@]}\"; do\n      if [[ ${backgrounds[$i]} == $current_background ]]; then\n        index=$i\n        break\n      fi\n    done\n\n    if (( index != -1 )); then\n      next_index=$(((index + 1) % ${#backgrounds[@]}))\n      CHOSEN_THEME_BACKGROUND=\"${backgrounds[$next_index]}\"\n    else\n      CHOSEN_THEME_BACKGROUND=\"${backgrounds[0]}\"\n    fi\n    return\n  fi\n\n  state_file=$(theme_background_state_file \"$THEME_NAME\" 2>/dev/null || true)\n  remembered_background=$(cat \"$state_file\" 2>/dev/null || true)\n  if [[ $theme_path != $CURRENT_THEME_PATH && ${remembered_background%/*} == $current_theme_backgrounds ]]; then\n    remembered_background=\"$theme_path/backgrounds/${remembered_background##*/}\"\n  fi\n  if [[ -f $remembered_background ]]; then\n    CHOSEN_THEME_BACKGROUND=\"$remembered_background\"\n    return\n  fi\n\n  CHOSEN_THEME_BACKGROUND=\"${backgrounds[0]}\"\n}\n\nchoose_staged_theme_background() {\n  local next_theme_backgrounds=\"$NEXT_THEME_PATH/backgrounds\"\n\n  choose_theme_background \"$NEXT_THEME_PATH\" || return 1\n  STAGED_THEME_BACKGROUND=\"$CHOSEN_THEME_BACKGROUND\"\n\n  if [[ ${CHOSEN_THEME_BACKGROUND%/*} == $next_theme_backgrounds ]]; then\n    CHOSEN_THEME_BACKGROUND=\"$CURRENT_THEME_PATH/backgrounds/${CHOSEN_THEME_BACKGROUND##*/}\"\n  fi\n}\n\nset_theme_background_link() {\n  choose_theme_background || return 1\n  ln -nsf \"$CHOSEN_THEME_BACKGROUND\" \"$CURRENT_BACKGROUND_LINK\"\n}\n\nset_theme_background() {\n  local new_background new_background_snapshot theme_id intro_prepared=false\n\n  if [[ -z $CHOSEN_THEME_BACKGROUND || ! -f $CHOSEN_THEME_BACKGROUND ]]; then\n    if ! choose_theme_background; then\n      omarchy-notification-send \"$(omarchy-i18n theme.noBackground)\" -t 2000\n      shell_ipc shell applyTheme \"$colors_payload\" \"$shell_payload\" || true\n      return\n    fi\n  fi\n\n  new_background=\"$CHOSEN_THEME_BACKGROUND\"\n  if [[ $THEME_BACKGROUND_COVER == \"true\" ]]; then\n    if [[ -n $INTRO_PREPARE_PID ]] && wait \"$INTRO_PREPARE_PID\"; then\n      intro_prepared=true\n    fi\n    theme_id=$(stat -Lc '%d:%i' \"$CURRENT_THEME_PATH\")\n    # With its cover up, the shell takes the rest: the new still under the\n    # cover, the intro if there is one, the reveal with the new palette, and\n    # Hyprland's reload once no video plays, since a reload pauses video.\n    if shell_ipc shell prepareThemeIntro \"$OLD_BACKGROUND_SNAPSHOT\" \"$theme_id\" \"$colors_payload\" \"$shell_payload\"; then\n      ln -nsf \"$new_background\" \"$CURRENT_BACKGROUND_LINK\"\n      # The clip was found in the staged theme, which the swap renamed.\n      if shell_ipc shell playThemeIntro \"$theme_id\" \"$new_background\" \"${THEME_BACKGROUND_INTRO/#$NEXT_THEME_PATH\\//$CURRENT_THEME_PATH/}\" \"$intro_prepared\"; then\n        THEME_INTRO_TOKEN=\"$theme_id\"\n        return\n      fi\n      # A shell an update could not restart only knows to drop the cover.\n      shell_ipc shell finishThemeIntro \"$theme_id\" || true\n    fi\n  fi\n  new_background_snapshot=\"\"\n  if [[ -n $PREPARED_BACKGROUND_SNAPSHOT && $PREPARED_BACKGROUND == \"$new_background\" ]]; then\n    new_background_snapshot=\"$PREPARED_BACKGROUND_SNAPSHOT\"\n  else\n    [[ -z $PREPARED_BACKGROUND_SNAPSHOT ]] || rm -f \"$PREPARED_BACKGROUND_SNAPSHOT\"\n    if [[ $BACKGROUND_TRANSITION_SNAPSHOTS == \"true\" ]]; then\n      new_background_snapshot=$(snapshot_background_path \"$new_background\" \"next\")\n    fi\n  fi\n\n  if [[ -f $OLD_BACKGROUND_SNAPSHOT && -f $new_background_snapshot ]]; then\n    shell_ipc background themeTransition \"$OLD_BACKGROUND_SNAPSHOT\" \"$new_background_snapshot\" \"$new_background\" \"$colors_payload\" \"$shell_payload\" || \\\n      shell_ipc shell applyTheme \"$colors_payload\" \"$shell_payload\" || true\n    (sleep 3; rm -f \"$OLD_BACKGROUND_SNAPSHOT\" \"$new_background_snapshot\") &\n  elif [[ -f $new_background_snapshot ]]; then\n    shell_ipc background themeTransition \"\" \"$new_background_snapshot\" \"$new_background\" \"$colors_payload\" \"$shell_payload\" || \\\n      shell_ipc shell applyTheme \"$colors_payload\" \"$shell_payload\" || true\n    (sleep 3; rm -f \"$new_background_snapshot\") &\n  else\n    shell_ipc background themeTransition \"$OLD_BACKGROUND_SNAPSHOT\" \"$new_background\" \"$new_background\" \"$colors_payload\" \"$shell_payload\" || \\\n      shell_ipc shell applyTheme \"$colors_payload\" \"$shell_payload\" || true\n    if [[ -f $OLD_BACKGROUND_SNAPSHOT ]]; then\n      (sleep 3; rm -f \"$OLD_BACKGROUND_SNAPSHOT\") &\n    fi\n  fi\n\n  ln -nsf \"$new_background\" \"$CURRENT_BACKGROUND_LINK\"\n}\n\nis_denied_installed_file() {\n  local name=\"$1\"\n  local denied\n\n  [[ $name == *.lua ]] && return 0\n\n  for denied in \"${INSTALLED_THEME_DENIED[@]}\"; do\n    [[ $name == \"$denied\" ]] && return 0\n  done\n\n  return 1\n}\n\n# Themes older than colors.toml still get their palette, but their\n# alacritty.toml never reaches the staged theme: an Alacritty config names the\n# program the terminal launches.\nstage_installed_colors_from_alacritty() {\n  local source=\"$1\"\n  local scratch\n\n  if [[ -f $NEXT_THEME_PATH/colors.toml ]]; then\n    return\n  fi\n\n  if [[ ! -f $source/alacritty.toml || -L $source/alacritty.toml ]]; then\n    return\n  fi\n\n  scratch=$(mktemp -d)\n  cp \"$source/alacritty.toml\" \"$scratch/alacritty.toml\"\n  omarchy-theme-colors-from-alacritty \"$scratch\"\n\n  if [[ -f $scratch/colors.toml ]]; then\n    cp \"$scratch/colors.toml\" \"$NEXT_THEME_PATH/colors.toml\"\n  fi\n\n  rm -rf \"$scratch\"\n}\n\n# Copies a directory without ever following a symlink: in an installed theme one\n# points wherever the theme author chose, which is how an unlock.png becomes a\n# copy of any file the session can read.\nstage_installed_dir() {\n  local source=\"$1\"\n  local dest=\"$2\"\n  local entry name\n\n  mkdir -p \"$dest\"\n\n  for entry in \"$source\"/*; do\n    [[ -e $entry && ! -L $entry ]] || continue\n    name=${entry##*/}\n\n    if [[ -d $entry ]]; then\n      stage_installed_dir \"$entry\" \"$dest/$name\"\n    else\n      cp \"$entry\" \"$dest/$name\"\n    fi\n  done\n}\n\n# `omarchy theme install` clones into ~/.config/omarchy/themes, so a .git\n# directory there means the contents came from a stranger and are held to the\n# list above. A directory the user wrote themselves, and a symlink to their own\n# working copy, are theirs to fill however they like -- the same distinction\n# omarchy-theme-extras draws when it decides which themes it may pull.\ntheme_came_from_a_repo() {\n  local source=\"$1\"\n\n  [[ ! -L $source && -d $source/.git ]]\n}\n\nstage_installed_theme() {\n  local source=\"$1\"\n  local entry name\n\n  [[ -d $source ]] || return 0\n\n  for entry in \"$source\"/*; do\n    [[ -e $entry ]] || continue\n    name=${entry##*/}\n\n    if [[ -L $entry ]] || is_denied_installed_file \"$name\"; then\n      case \"${name,,}\" in\n        readme* | license* | changelog* | *.md | *.txt) ;;\n        *) IGNORED_THEME_FILES+=(\"$name\") ;;\n      esac\n    elif [[ -d $entry ]]; then\n      stage_installed_dir \"$entry\" \"$NEXT_THEME_PATH/$name\"\n    else\n      cp \"$entry\" \"$NEXT_THEME_PATH/$name\"\n    fi\n  done\n\n  stage_installed_colors_from_alacritty \"$source\"\n}\n\nreport_ignored_theme_files() {\n  (( ${#IGNORED_THEME_FILES[@]} > 0 )) || return 0\n\n  echo \"Ignored in $USER_THEMES_PATH/$THEME_NAME: ${IGNORED_THEME_FILES[*]}\" >&2\n  echo \"A theme installed from a git repo cannot supply Lua, a terminal config, or vscode.json.\" >&2\n}\n\nTHEME_NAME=$(echo \"$1\" | sed -E 's/\u003c[^>]+>//g' | tr '[:upper:]' '[:lower:]' | tr ' ' '-')\nTHEME_HEADLESS=0\nif [[ ${OMARCHY_THEME_HEADLESS:-} == \"1\" || ${OMARCHY_THEME_OFFLINE:-} == \"1\" ]]; then\n  THEME_HEADLESS=1\nfi\n\nif [[ -z $THEME_NAME || $THEME_NAME == .* || $THEME_NAME == */* ]]; then\n  echo \"Invalid theme name: $1\"\n  exit 1\nfi\n\nif [[ ! -d $OMARCHY_THEMES_PATH/$THEME_NAME ]] && [[ ! -d $USER_THEMES_PATH/$THEME_NAME ]]; then\n  echo \"Theme '$THEME_NAME' does not exist\"\n  exit 1\nfi\n\n# Serialize theme changes. Theme switching rebuilds a shared next-theme staging\n# directory and updates current theme/background symlinks; concurrent calls can\n# otherwise race and make one selection appear to be ignored.\nexec 9>\"$THEME_SET_LOCK\"\nflock 9\n\n# A current video frame only represents the screen after its opening fade.\n# Finish that short reveal before capturing the next outgoing cover.\nif [[ $THEME_HEADLESS != \"1\" && $OMARCHY_THEME_SKIP_BACKGROUND != \"1\" ]]; then\n  wait_for_theme_intro pending themeIntroBusy\nfi\n\nPREVIOUS_THEME_NAME=$(cat \"$CURRENT_THEME_NAME_PATH\" 2>/dev/null || true)\nremember_current_theme_background\n\n# Setup clean next theme directory (for atomic theme config swapping)\nrm -rf \"$NEXT_THEME_PATH\"\nmkdir -p \"$NEXT_THEME_PATH\"\n\n# Copy official theme first, then overlay the user's theme on top\ncp -r \"$OMARCHY_THEMES_PATH/$THEME_NAME/\"* \"$NEXT_THEME_PATH/\" 2>/dev/null\n\nif theme_came_from_a_repo \"$USER_THEMES_PATH/$THEME_NAME\"; then\n  stage_installed_theme \"$USER_THEMES_PATH/$THEME_NAME\"\n  report_ignored_theme_files\nelse\n  cp -r \"$USER_THEMES_PATH/$THEME_NAME/\"* \"$NEXT_THEME_PATH/\" 2>/dev/null\nfi\n\n# Generate colors.toml from alacritty.toml if theme is missing colors.toml\nif [[ ! -f $NEXT_THEME_PATH/colors.toml && -f $NEXT_THEME_PATH/alacritty.toml ]]; then\n  omarchy-theme-colors-from-alacritty \"$NEXT_THEME_PATH\"\nfi\n\nCHOSEN_THEME_BACKGROUND=\"\"\nSTAGED_THEME_BACKGROUND=\"\"\nOLD_BACKGROUND_SNAPSHOT=\"\"\nPREPARED_BACKGROUND=\"\"\nPREPARED_BACKGROUND_SNAPSHOT=\"\"\nBACKGROUND_TRANSITION_SNAPSHOTS=true\nTHEME_BACKGROUND_INTRO=\"\"\nTHEME_BACKGROUND_COVER=false\nINTRO_PREPARE_PID=\"\"\nTHEME_INTRO_TOKEN=\"\"\nif [[ $THEME_HEADLESS != \"1\" && $OMARCHY_THEME_SKIP_BACKGROUND != \"1\" ]]; then\n  # Resolve the staged choice while the old theme still exists. Video changes\n  # switch directly to the durable path in QML, so neither side needs a copy.\n  if choose_staged_theme_background; then\n    # Reselecting the current theme cycles its background, which plays that\n    # background's intro like any other background change.\n    if [[ $PREVIOUS_THEME_NAME != \"$THEME_NAME\" || $(readlink \"$CURRENT_BACKGROUND_LINK\") != \"$CHOSEN_THEME_BACKGROUND\" ]] &&\n      [[ ! -f $HOME/.local/state/omarchy/toggles/background-intros-off ]] &&\n      [[ $(hyprctl -j getoption animations:enabled 2>/dev/null | jq -r '.bool') == \"true\" ]]; then\n      THEME_BACKGROUND_INTRO=$(omarchy-theme-bg-boot-intro --resolve-only \"$STAGED_THEME_BACKGROUND\")\n    fi\n    # An intro still playing hides the shell's background, so an ordinary\n    # transition would run unseen and end in a cut. Hold its current frame\n    # under the same cover instead and fade that out once OWE hands back.\n    if [[ -n $THEME_BACKGROUND_INTRO || $(owe status 2>/dev/null | jq -r '.intro' 2>/dev/null) == \"true\" ]]; then\n      THEME_BACKGROUND_COVER=true\n      OLD_BACKGROUND_SNAPSHOT=$(snapshot_current_background)\n      if [[ -n $THEME_BACKGROUND_INTRO ]]; then\n        # OWE retains the opened clip across the staged directory's rename.\n        owe intro-prepare \"$THEME_BACKGROUND_INTRO\" >/dev/null 2>&1 9>&- &\n        INTRO_PREPARE_PID=$!\n      fi\n      shell_ipc shell prepareThemeIntro \"$OLD_BACKGROUND_SNAPSHOT\" \"$(stat -Lc '%d:%i' \"$NEXT_THEME_PATH\")\" \"\" \"\" || true\n    elif background_transition_uses_snapshots \"$CHOSEN_THEME_BACKGROUND\"; then\n      OLD_BACKGROUND_SNAPSHOT=$(snapshot_current_background)\n\n      # Hand the shell the next background now, so it decodes while the\n      # templates render and the theme swaps in. The staged file is the same\n      # inode the swap moves into place, so its snapshot is the final image.\n      PREPARED_BACKGROUND=\"$CHOSEN_THEME_BACKGROUND\"\n      PREPARED_BACKGROUND_SNAPSHOT=$(snapshot_background_path \"$STAGED_THEME_BACKGROUND\" \"next\")\n      if [[ -n $PREPARED_BACKGROUND_SNAPSHOT ]]; then\n        shell_ipc background prepare \"$PREPARED_BACKGROUND_SNAPSHOT\" 9>&- &\n      fi\n    else\n      BACKGROUND_TRANSITION_SNAPSHOTS=false\n    fi\n  fi\nfi\n\n# Generate dynamic configs\nomarchy-theme-set-templates\n\n# Replacing the theme's still can cancel an active OWE intro even before the\n# background link changes. Present its cover before replacing either path.\nif [[ $THEME_BACKGROUND_COVER == \"true\" ]]; then\n  wait_for_theme_intro loading themeIntroCoverStatus \"$(stat -Lc '%d:%i' \"$NEXT_THEME_PATH\")\"\nfi\n\n# Swap next theme in as current\nrm -rf \"$CURRENT_THEME_PATH\"\nmv \"$NEXT_THEME_PATH\" \"$CURRENT_THEME_PATH\"\n# Name this switch, so its deferred retints can tell when a later one replaced\n# the theme. A directory's inode would do, except that it can be reused.\n# A token that could not be written proves nothing either way, so then the\n# retints run as if this switch were the latest.\nAPPLIED_THEME_GENERATION=\"$$-${EPOCHREALTIME//[!0-9]/}\"\nif ! printf '%s\\n' \"$APPLIED_THEME_GENERATION\" 2>/dev/null >\"$THEME_GENERATION_PATH\"; then\n  APPLIED_THEME_GENERATION=\"\"\nfi\n\n# Store theme name for reference\necho \"$THEME_NAME\" >\"$CURRENT_THEME_NAME_PATH\"\n\n# Make the running shell pick up the new palette immediately while the rest of\n# the theme hooks run.\ncolors_payload=$([[ -f $CURRENT_THEME_PATH/colors.toml ]] && base64 -w 0 \"$CURRENT_THEME_PATH/colors.toml\")\nshell_payload=$([[ -f $CURRENT_THEME_PATH/shell.toml ]] && base64 -w 0 \"$CURRENT_THEME_PATH/shell.toml\")\nif [[ $THEME_HEADLESS == \"1\" ]]; then\n  # No shell/session bus exists during ISO chroot finalization, but the first\n  # real login still needs a current background symlink for omarchy-shell to\n  # render.\n  [[ $OMARCHY_THEME_SKIP_BACKGROUND == \"1\" ]] || set_theme_background_link || true\nelif [[ $OMARCHY_THEME_SKIP_BACKGROUND == \"1\" ]]; then\n  shell_ipc shell applyTheme \"$colors_payload\" \"$shell_payload\" || true\nelse\n  set_theme_background\nfi\n\n# The shared staging/current symlinks are updated and the shell has accepted\n# the transition. Let another theme selection queue only behind that critical\n# section, not behind slower app-retint hooks and selector cache warmups.\nflock -u 9\n\n# What the user is looking at: the terminals and the programs drawn inside\n# them, plus the window borders when no intro is playing. These run as soon as\n# the theme is in place, alongside the wallpaper and bar transition.\nvisible_theme_commands=(\n  omarchy-restart-terminal\n  omarchy-theme-set-foot\n  omarchy-theme-set-tmux\n  omarchy-restart-btop\n  omarchy-restart-opencode\n  omarchy-restart-helix\n  omarchy-theme-set-hunk\n)\n\n# Configs other apps read on their next refresh or launch: GTK, the browser\n# policy, editors, agents and the keyboard backlight. Nothing on screen waits\n# for these.\nother_theme_commands=(\n  omarchy-theme-set-gnome\n  omarchy-theme-set-pi\n  omarchy-theme-set-claude\n  omarchy-theme-set-hermes\n  omarchy-theme-set-t3code\n  omarchy-theme-set-browser\n  omarchy-theme-set-vscode\n  omarchy-theme-set-obsidian\n  omarchy-theme-set-keyboard\n  omarchy-theme-set-fcitx5\n)\n\ntheme_still_current() {\n  [[ -z $APPLIED_THEME_GENERATION ]] && return 0\n  [[ $(\u003c\"$THEME_GENERATION_PATH\") == \"$APPLIED_THEME_GENERATION\" ]] 2>/dev/null\n}\n\napply_other_theme_commands() {\n  local detached=\"${1:-}\"\n\n  # Let an intro's wallpaper and bar finish their reveal before these compete\n  # with video decoding and the shell's frame rendering.\n  if [[ -n $THEME_INTRO_TOKEN ]]; then\n    wait_for_theme_intro pending themeIntroStatus \"$THEME_INTRO_TOKEN\"\n  fi\n\n  # Warm the background selector's thumbnails, which converts images on every\n  # core, so it too waits for the reveal. The theme picker keeps its own rows\n  # in the shell and refreshes them each time it opens.\n  omarchy-theme-bg-cache \u003c/dev/null >/dev/null 2>&1 8>&- 9>&- &\n\n  # Quick switches leave several of these batches going, and a retint such as\n  # the browser's reads its colour long before it writes it. Run the batches\n  # one at a time, and skip the retints of one whose theme was replaced while\n  # it waited, so an older theme never lands after a newer one.\n  exec 8>\"$THEME_RETINT_LOCK\"\n  flock 8\n  local current=false\n  if theme_still_current; then\n    current=true\n  fi\n\n  # The log starts over with each batch that retints, and a superseded one\n  # leaves it to the newer batch. An older batch's hook may still be writing to\n  # it, so every batch appends rather than writing at its own offset.\n  if [[ $detached == \"detached\" ]]; then\n    if [[ $current == \"true\" ]]; then\n      : >\"$THEME_SET_LOG\"\n    fi\n    exec 2>>\"$THEME_SET_LOG\"\n  fi\n  if [[ $current == \"true\" ]]; then\n    run_parallel \"${other_theme_commands[@]}\"\n  fi\n  exec 8>&-\n\n  # Call hook on theme set. The lock is released first: a hook may switch the\n  # theme itself, and that switch's batch needs the lock.\n  omarchy-hook theme-set \"$THEME_NAME\" >/dev/null\n\n  # A newer switch replaced this theme during the hook, so its failures say\n  # nothing about the apps any more; the newer batch reports its own.\n  if theme_still_current; then\n    report_failed_theme_commands \"$detached\"\n  fi\n}\n\nif [[ $THEME_HEADLESS != \"1\" ]]; then\n  # An intro reloads Hyprland after playback; ordinary theme changes reload it\n  # with the terminals.\n  if [[ -z $THEME_INTRO_TOKEN ]]; then\n    visible_theme_commands+=(omarchy-restart-hyprctl)\n  fi\n  run_parallel \"${visible_theme_commands[@]}\"\n\n  # A switch from the theme picker, the menu or a script returns once what is\n  # on screen has changed and leaves the rest running behind it, with its\n  # output in the log. One typed in a terminal waits for everything, so the\n  # browser policy can ask for a sudo password there, and so does a caller\n  # that sets OMARCHY_THEME_WAIT=1 because it reads those app configs next.\n  if [[ -t 0 || ${OMARCHY_THEME_WAIT:-} == \"1\" ]]; then\n    apply_other_theme_commands\n  else\n    mkdir -p \"${THEME_SET_LOG%/*}\"\n    apply_other_theme_commands detached \u003c/dev/null >/dev/null 2>/dev/null 9>&- &\n  fi\n\n  # Mirror the theme to herdr machines. SSH can take a while, so this never holds up the theme change.\n  setsid omarchy-theme-set-herdr-machines >>\"$HOME/.local/state/omarchy/theme-set-herdr-machines.log\" 2>&1 \u003c/dev/null &\nfi\n"
+  }
+]
+</script>
+  <script>
+    'use strict';
+    (() => {
+      const canvas = document.getElementById('code');
+      const context = canvas.getContext('2d');
+      if (!context) return;
+      const files = JSON.parse(document.getElementById('omarchy-source').textContent);
+      const scrollSpace = document.getElementById('scroll-space');
+      const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+      const font = '13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+      const lineHeight = 23;
+      const topPadding = 48;
+      const leftPadding = 28;
+      const gutter = 54;
+      const radius = 145;
+      const zoom = 1.85;
+      let width = 0;
+      let height = 0;
+      let rows = [];
+      let frame = 0;
+      const pointer = { x: 0, y: 0, active: false };
+
+      function scheduleDraw() {
+        if (!frame) frame = requestAnimationFrame(() => { frame = 0; draw(); });
       }
 
-      :root {
-        --bg: #050014;
-        --surface: rgba(16, 16, 28, 0.62);
-        --surface-border: rgba(255, 255, 255, 0.08);
-        --text: #f4f4f7;
-        --text-dim: #a1a1aa;
-        --text-muted: #71717a;
-        --primary: #818cf8;
-        --primary-glow: rgba(129, 140, 248, 0.22);
-        --secondary: #34d399;
-        --font-heading: "Outfit", sans-serif;
-        --font-body: "Plus Jakarta Sans", sans-serif;
-        --font-mono: "JetBrains Mono", monospace;
-        --ease: cubic-bezier(0.16, 1, 0.3, 1);
-      }
-
-      html {
-        scroll-behavior: smooth;
-        scroll-padding-bottom: 108px;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        color-scheme: dark;
-        scrollbar-width: thin;
-        scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
-      }
-
-      ::-webkit-scrollbar {
-        width: 6px;
-      }
-      ::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.12);
-        border-radius: 99px;
-      }
-
-      ::selection {
-        background: rgba(129, 140, 248, 0.32);
-        color: #fff;
-      }
-
-      :focus-visible {
-        outline: 2px solid var(--primary);
-        outline-offset: 3px;
-      }
-
-      body {
-        font-family: var(--font-body);
-        background: var(--bg);
-        color: var(--text);
-        line-height: 1.6;
-        min-height: 100vh;
-        overflow-x: hidden;
-      }
-
-      .bg {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-        background:
-          radial-gradient(900px 520px at 50% -10%, rgba(99, 102, 241, 0.22), transparent 60%),
-          radial-gradient(640px 420px at 100% 20%, rgba(168, 85, 247, 0.1), transparent 55%),
-          radial-gradient(560px 380px at 0% 70%, rgba(16, 185, 129, 0.08), transparent 50%),
-          #050014;
-      }
-
-      .bg::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image:
-          linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-        background-size: 56px 56px;
-        mask-image: radial-gradient(ellipse at 50% 20%, black 20%, transparent 72%);
-        opacity: 0.35;
-      }
-
-      .container {
-        position: relative;
-        z-index: 1;
-        max-width: 680px;
-        margin: 0 auto;
-        padding: 72px 24px 128px;
-      }
-
-      .section {
-        margin-bottom: 52px;
-      }
-
-      .section-title {
-        font-family: var(--font-heading);
-        font-size: 0.72rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        color: var(--text-muted);
-        margin-bottom: 16px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-
-      .section-title::after {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent);
-      }
-
-      /* Hero */
-      .hero {
-        text-align: center;
-        margin-bottom: 48px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .avatar-ring {
-        position: relative;
-        margin-bottom: 22px;
-        padding: 3px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #818cf8, #34d399 48%, #c084fc);
-      }
-
-      .avatar {
-        display: block;
-        width: 104px;
-        height: 104px;
-        border-radius: 50%;
-        border: 3px solid #050014;
-        object-fit: cover;
-        background: #111;
-      }
-
-      .hero h1 {
-        font-family: var(--font-heading);
-        font-size: clamp(2.1rem, 6vw, 2.75rem);
-        font-weight: 800;
-        letter-spacing: -0.04em;
-        line-height: 1.05;
-        color: #fff;
-        margin-bottom: 8px;
-      }
-
-      .hero .tagline {
-        color: var(--text-dim);
-        font-size: 1rem;
-        font-weight: 500;
-        margin-bottom: 18px;
-      }
-
-      .status-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 7px 13px;
-        border-radius: 99px;
-        background: rgba(52, 211, 153, 0.08);
-        border: 1px solid rgba(52, 211, 153, 0.22);
-        color: var(--secondary);
-        font-size: 0.78rem;
-        font-weight: 600;
-      }
-
-      .status-dot {
-        position: relative;
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--secondary);
-      }
-
-      .pulse-ring {
-        position: absolute;
-        inset: -5px;
-        border-radius: 50%;
-        border: 1.5px solid var(--secondary);
-        animation: pulse-ring 2.2s ease-out infinite;
-      }
-
-      @keyframes pulse-ring {
-        0% {
-          transform: scale(0.55);
-          opacity: 0.7;
+      function layout() {
+        width = document.documentElement.clientWidth;
+        height = window.innerHeight;
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.round(width * ratio);
+        canvas.height = Math.round(height * ratio);
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+        context.font = font;
+        const columns = Math.max(12, Math.floor((width - leftPadding * 2 - gutter) / context.measureText('M').width));
+        rows = [];
+        for (const file of files) {
+          rows.push({ number: '', text: '# omacom/omarchy / ' + file.path, header: true });
+          file.content.replace(/\n$/, '').split('\n').forEach((line, index) => {
+            const expanded = line.replace(/\t/g, '  ');
+            if (!expanded) rows.push({ number: index + 1, text: '' });
+            for (let offset = 0; offset < expanded.length; offset += columns) {
+              rows.push({ number: offset === 0 ? index + 1 : '·', text: expanded.slice(offset, offset + columns) });
+            }
+          });
+          rows.push({ number: '', text: '' }, { number: '', text: '' });
         }
-        100% {
-          transform: scale(2);
-          opacity: 0;
+        scrollSpace.style.height = Math.max(height * 2, rows.length * lineHeight + topPadding * 2) + 'px';
+        scheduleDraw();
+      }
+
+      function paintCode(bright) {
+        const scroll = window.scrollY;
+        const start = Math.max(0, Math.floor((scroll - topPadding) / lineHeight) - 2);
+        const end = Math.min(rows.length, Math.ceil((scroll + height - topPadding) / lineHeight) + 2);
+        context.font = font;
+        context.textBaseline = 'top';
+        for (let index = start; index < end; index++) {
+          const row = rows[index];
+          const y = topPadding + index * lineHeight - scroll;
+          context.fillStyle = bright ? '#58677c' : '#253243';
+          context.textAlign = 'right';
+          context.fillText(String(row.number), leftPadding + gutter - 18, y);
+          context.textAlign = 'left';
+          const text = row.text.trimStart();
+          context.fillStyle = row.header ? (bright ? '#e0af68' : '#60503b')
+            : text.startsWith('#') ? (bright ? '#789176' : '#34463e')
+            : /^(if|then|fi|else|elif|for|do|done|while|return|local|function)\b/.test(text) ? (bright ? '#bb9af7' : '#47465f')
+            : (bright ? '#a9c5de' : '#3c4d60');
+          context.fillText(row.text, leftPadding + gutter, y);
         }
       }
 
-      /* Terminal */
-      .card {
-        background: var(--surface);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid var(--surface-border);
-        border-radius: 18px;
-        padding: 0;
-        margin-bottom: 52px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
-        overflow: hidden;
+      function draw() {
+        context.fillStyle = '#0b1017';
+        context.fillRect(0, 0, width, height);
+        paintCode(false);
+        if (!pointer.active || !finePointer.matches) return;
+        const { x, y } = pointer;
+        context.save();
+        context.beginPath();
+        context.arc(x, y, radius, 0, Math.PI * 2);
+        context.clip();
+        context.fillStyle = '#101923';
+        context.fillRect(0, 0, width, height);
+        context.translate(x, y);
+        context.scale(zoom, zoom);
+        context.translate(-x, -y);
+        paintCode(true);
+        context.restore();
+        context.beginPath();
+        context.arc(x, y, radius, 0, Math.PI * 2);
+        context.strokeStyle = '#91afc044';
+        context.lineWidth = 1;
+        context.stroke();
       }
 
-      .card-header {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 12px 14px;
-        background: rgba(255, 255, 255, 0.02);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      }
-
-      .dots {
-        display: flex;
-        gap: 6px;
-        flex-shrink: 0;
-      }
-
-      .dots button {
-        width: 11px;
-        height: 11px;
-        border: 0;
-        border-radius: 50%;
-        padding: 0;
-        cursor: pointer;
-        background: #ef4444;
-      }
-
-      .dots .minimize-dot {
-        background: #eab308;
-      }
-      .dots .maximize-dot {
-        background: #22c55e;
-      }
-
-      .terminal-tabs {
-        display: flex;
-        gap: 4px;
-        overflow-x: auto;
-        scrollbar-width: none;
-        min-width: 0;
-      }
-
-      .terminal-tabs::-webkit-scrollbar {
-        display: none;
-      }
-
-      .terminal-tab {
-        background: transparent;
-        border: 1px solid transparent;
-        color: var(--text-muted);
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
-        font-weight: 500;
-        padding: 5px 9px;
-        border-radius: 8px;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        white-space: nowrap;
-        transition: background 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
-      }
-
-      .terminal-tab:hover {
-        color: var(--text);
-        background: rgba(255, 255, 255, 0.04);
-      }
-
-      .terminal-tab.active {
-        color: var(--primary);
-        background: rgba(129, 140, 248, 0.1);
-        border-color: rgba(129, 140, 248, 0.18);
-      }
-
-      .terminal-body {
-        font-family: var(--font-mono);
-        font-size: 0.82rem;
-        line-height: 1.75;
-        color: var(--text-dim);
-        min-height: 188px;
-        padding: 18px 20px 22px;
-        transition: opacity 0.15s ease;
-      }
-
-      .terminal-body .prompt {
-        color: var(--secondary);
-        user-select: none;
-      }
-
-      .terminal-body .cmd {
-        color: var(--text);
-        font-weight: 500;
-      }
-
-      .terminal-body .comment {
-        color: var(--text-muted);
-        font-style: italic;
-      }
-
-      .terminal-body .output {
-        color: var(--text-dim);
-        display: block;
-      }
-
-      .terminal-body .key {
-        color: var(--primary);
-      }
-
-      .terminal-link {
-        color: var(--primary);
-        text-decoration: none;
-        border-bottom: 1px dashed rgba(129, 140, 248, 0.4);
-      }
-
-      .terminal-link:hover {
-        border-bottom-style: solid;
-      }
-
-      .terminal-line {
-        display: block;
-        padding: 1px 0;
-      }
-
-      .cursor-blink {
-        display: inline-block;
-        width: 7px;
-        height: 14px;
-        background: var(--primary);
-        margin-left: 3px;
-        vertical-align: text-bottom;
-        animation: blink 1s step-end infinite;
-      }
-
-      @keyframes blink {
-        50% {
-          opacity: 0;
-        }
-      }
-
-      /* Skills */
-      .skills-panel {
-        background: var(--surface);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid var(--surface-border);
-        border-radius: 18px;
-        overflow: hidden;
-      }
-
-      .skill-cat {
-        padding: 18px 20px;
-      }
-
-      .skill-cat + .skill-cat {
-        border-top: 1px solid rgba(255, 255, 255, 0.06);
-      }
-
-      .cat-header {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-family: var(--font-heading);
-        font-size: 0.82rem;
-        font-weight: 600;
-        color: var(--text-dim);
-        margin-bottom: 12px;
-      }
-
-      .cat-icon {
-        color: var(--primary);
-      }
-
-      .tech-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
-      .tech-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        padding: 6px 11px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        font-size: 0.78rem;
-        font-weight: 500;
-        color: var(--text-dim);
-        transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease);
-      }
-
-      .tech-badge:hover {
-        color: #fff;
-        border-color: var(--brand-color);
-        background: var(--brand-color-soft);
-      }
-
-      .tech-badge .dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        flex-shrink: 0;
-      }
-
-      /* Connect */
-      .connect-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .connect-card {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        background: var(--surface);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid var(--surface-border);
-        border-radius: 16px;
-        padding: 14px 16px;
-        text-decoration: none;
-        color: var(--text);
-        transition: border-color 0.25s var(--ease), transform 0.25s var(--ease), background 0.25s var(--ease);
-      }
-
-      .connect-card:hover {
-        transform: translateY(-1px);
-        border-color: color-mix(in srgb, var(--c-color) 55%, transparent);
-        background: rgba(22, 22, 36, 0.72);
-      }
-
-      .connect-icon-wrapper {
-        width: 40px;
-        height: 40px;
-        border-radius: 11px;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--c-color);
-        flex-shrink: 0;
-      }
-
-      .connect-info {
-        flex: 1;
-        min-width: 0;
-      }
-
-      .connect-info h4 {
-        font-family: var(--font-heading);
-        font-size: 0.92rem;
-        font-weight: 600;
-        margin-bottom: 1px;
-      }
-
-      .connect-info p {
-        font-size: 0.78rem;
-        color: var(--text-dim);
-      }
-
-      .connect-arrow {
-        color: var(--text-muted);
-        font-size: 1rem;
-        transition: transform 0.25s var(--ease), color 0.25s var(--ease);
-      }
-
-      .connect-card:hover .connect-arrow {
-        color: var(--text);
-        transform: translateX(3px);
-      }
-
-      /* Dock */
-      .floating-dock {
-        position: fixed;
-        bottom: max(16px, env(safe-area-inset-bottom));
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(10, 10, 18, 0.72);
-        backdrop-filter: blur(22px);
-        -webkit-backdrop-filter: blur(22px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        padding: 7px;
-        border-radius: 999px;
-        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
-        z-index: 100;
-      }
-
-      .dock-item {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        border-radius: 999px;
-        color: var(--text-dim);
-        text-decoration: none;
-        transition: background 0.2s var(--ease), color 0.2s var(--ease);
-      }
-
-      .dock-item:hover {
-        color: #fff;
-        background: rgba(255, 255, 255, 0.06);
-      }
-
-      .dock-item.active {
-        color: #fff;
-        background: rgba(129, 140, 248, 0.9);
-      }
-
-      .dock-item .tooltip {
-        position: absolute;
-        bottom: 50px;
-        left: 50%;
-        transform: translateX(-50%) translateY(4px);
-        background: #12121a;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: #fff;
-        padding: 4px 8px;
-        border-radius: 6px;
-        font-size: 0.7rem;
-        font-weight: 500;
-        white-space: nowrap;
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 0.15s ease, transform 0.15s ease;
-      }
-
-      .dock-item:hover .tooltip {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
-
-      .footer {
-        text-align: center;
-        margin-top: 8px;
-        color: var(--text-muted);
-        font-size: 0.72rem;
-        font-family: var(--font-mono);
-      }
-
-      .reveal {
-        opacity: 0;
-        transform: translateY(12px);
-        animation: reveal 0.7s var(--ease) forwards;
-      }
-
-      .hero.reveal { animation-delay: 0.05s; }
-      #about.reveal { animation-delay: 0.12s; }
-      #skills.reveal { animation-delay: 0.18s; }
-      #connect.reveal { animation-delay: 0.24s; }
-      .footer.reveal { animation-delay: 0.3s; }
-
-      @keyframes reveal {
-        to {
-          opacity: 1;
-          transform: none;
-        }
-      }
-
-      @media (max-width: 560px) {
-        .tab-label {
-          display: none;
-        }
-
-        .terminal-tab {
-          padding: 6px 8px;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .container {
-          padding: 52px 16px 112px;
-        }
-
-        .avatar {
-          width: 88px;
-          height: 88px;
-        }
-
-        .terminal-body {
-          font-size: 0.75rem;
-          padding: 16px;
-        }
-
-        .dock-item {
-          width: 38px;
-          height: 38px;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
-          animation: none !important;
-          transition: none !important;
-        }
-
-        html {
-          scroll-behavior: auto;
-        }
-
-        .reveal {
-          opacity: 1;
-          transform: none;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="bg" aria-hidden="true"></div>
-
-    <div class="container">
-      <section class="hero reveal" id="hero">
-        <div class="avatar-ring">
-          <img src="https://avatars.githubusercontent.com/u/20064811?v=4" alt="Nay Zaw Oo" class="avatar" />
-        </div>
-        <h1>Nay Zaw Oo</h1>
-        <p class="tagline">Full Stack Developer</p>
-        <div class="status-badge">
-          <span class="status-dot">
-            <span class="pulse-ring"></span>
-          </span>
-          Available for work
-        </div>
-      </section>
-
-      <div class="card reveal" id="about">
-        <div class="card-header">
-          <div class="dots">
-            <button type="button" class="close-dot" aria-label="About" onclick="switchTerminalTab('about')"></button>
-            <button type="button" class="minimize-dot" aria-label="Skills" onclick="switchTerminalTab('skills')"></button>
-            <button type="button" class="maximize-dot" aria-label="Contact" onclick="switchTerminalTab('contact')"></button>
-          </div>
-          <div class="terminal-tabs">
-            <button type="button" class="terminal-tab active" data-tab="about" onclick="switchTerminalTab('about')">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-              <span class="tab-label">about.sh</span>
-            </button>
-            <button type="button" class="terminal-tab" data-tab="skills" onclick="switchTerminalTab('skills')">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-              <span class="tab-label">skills.json</span>
-            </button>
-            <button type="button" class="terminal-tab" data-tab="contact" onclick="switchTerminalTab('contact')">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-              <span class="tab-label">contact.txt</span>
-            </button>
-            <button type="button" class="terminal-tab" data-tab="wasm" onclick="switchTerminalTab('wasm')">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              <span class="tab-label">wasm_bench.sh</span>
-            </button>
-          </div>
-        </div>
-        <div class="terminal-body" id="terminalContent"></div>
-      </div>
-
-      <section id="skills" class="section reveal">
-        <p class="section-title">Core Technologies</p>
-        <div class="skills-panel">
-          <div class="skill-cat">
-            <div class="cat-header">
-              <svg xmlns="http://www.w3.org/2000/svg" class="cat-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
-              Backend & Systems
-            </div>
-            <div class="tech-grid">
-              <span class="tech-badge" data-color="#777bb4"><span class="dot" style="background:#777bb4"></span>PHP</span>
-              <span class="tech-badge" data-color="#ff2d20"><span class="dot" style="background:#ff2d20"></span>Laravel</span>
-              <span class="tech-badge" data-color="#336791"><span class="dot" style="background:#336791"></span>PostgreSQL</span>
-              <span class="tech-badge" data-color="#ff4154"><span class="dot" style="background:#ff4154"></span>Redis</span>
-            </div>
-          </div>
-          <div class="skill-cat">
-            <div class="cat-header">
-              <svg xmlns="http://www.w3.org/2000/svg" class="cat-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-              Frontend & Design
-            </div>
-            <div class="tech-grid">
-              <span class="tech-badge" data-color="#3178c6"><span class="dot" style="background:#3178c6"></span>TypeScript</span>
-              <span class="tech-badge" data-color="#61dafb"><span class="dot" style="background:#61dafb"></span>React</span>
-              <span class="tech-badge" data-color="#4fc08d"><span class="dot" style="background:#4fc08d"></span>Vue.js</span>
-              <span class="tech-badge" data-color="#f7df1e"><span class="dot" style="background:#f7df1e"></span>JavaScript</span>
-              <span class="tech-badge" data-color="#38bdf8"><span class="dot" style="background:#38bdf8"></span>Tailwind CSS</span>
-            </div>
-          </div>
-          <div class="skill-cat">
-            <div class="cat-header">
-              <svg xmlns="http://www.w3.org/2000/svg" class="cat-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-              Mobile & Platforms
-            </div>
-            <div class="tech-grid">
-              <span class="tech-badge" data-color="#02569b"><span class="dot" style="background:#02569b"></span>Flutter</span>
-              <span class="tech-badge" data-color="#0175c2"><span class="dot" style="background:#0175c2"></span>Dart</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="connect" class="section reveal">
-        <p class="section-title">Connect</p>
-        <div class="connect-grid">
-          <a href="https://github.com/nayzawoo" target="_blank" rel="noopener noreferrer" class="connect-card" style="--c-color:#e4e4e7;">
-            <div class="connect-icon-wrapper">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
-              </svg>
-            </div>
-            <div class="connect-info">
-              <h4>GitHub</h4>
-              <p>Open-source work and codebases</p>
-            </div>
-            <span class="connect-arrow" aria-hidden="true">→</span>
-          </a>
-
-          <a href="https://linkedin.com/in/nayzawoo" target="_blank" rel="noopener noreferrer" class="connect-card" style="--c-color:#5aa7ff;">
-            <div class="connect-icon-wrapper">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-              </svg>
-            </div>
-            <div class="connect-info">
-              <h4>LinkedIn</h4>
-              <p>Connect professionally</p>
-            </div>
-            <span class="connect-arrow" aria-hidden="true">→</span>
-          </a>
-
-          <a href="mailto:nayzawoo.me@gmail.com" class="connect-card" style="--c-color:#818cf8;">
-            <div class="connect-icon-wrapper">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-              </svg>
-            </div>
-            <div class="connect-info">
-              <h4>Email</h4>
-              <p>nayzawoo.me@gmail.com</p>
-            </div>
-            <span class="connect-arrow" aria-hidden="true">→</span>
-          </a>
-        </div>
-      </section>
-
-      <footer class="footer reveal">
-        <p>© 2026 Nay Zaw Oo</p>
-      </footer>
-    </div>
-
-    <nav class="floating-dock" id="floatingDock" aria-label="Page sections">
-      <a href="#hero" class="dock-item active">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        <span class="tooltip">Home</span>
-      </a>
-      <a href="#about" class="dock-item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <span class="tooltip">About</span>
-      </a>
-      <a href="#skills" class="dock-item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        <span class="tooltip">Skills</span>
-      </a>
-      <a href="#connect" class="dock-item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        <span class="tooltip">Connect</span>
-      </a>
-    </nav>
-
-    <script>
-      let wasmFib = null;
-
-      async function initWasm() {
-        try {
-          const wasmBase64 = "AGFzbQEAAAABBgFgAX8BfwMCAQAHBwEDZmliAAAKHgEcACAAQQJJBH8gAAUgAEEBaxAAIABBAmsQAGoLCw==";
-          const binaryString = window.atob(wasmBase64);
-          const bytes = new Uint8Array(binaryString.length);
-          for (let i = 0; i < binaryString.length; i++) {
-            bytes[i] = binaryString.charCodeAt(i);
-          }
-          const results = await WebAssembly.instantiate(bytes.buffer);
-          wasmFib = results.instance.exports.fib;
-        } catch (e) {
-          console.error("WebAssembly initialization failed:", e);
-        }
-      }
-
-      function jsFib(n) {
-        if (n < 2) return n;
-        return jsFib(n - 1) + jsFib(n - 2);
-      }
-
-      function runBenchmark() {
-        const container = document.getElementById("terminalContent");
-        if (!container) return;
-
-        container.innerHTML = `
-        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">./wasm_bench.sh</span></span>
-        <span class="terminal-line"><span class="comment"># Compiling benchmark payload...</span></span>
-        <span class="terminal-line"><span class="output">WebAssembly Binary Loaded: OK</span></span>
-        <span class="terminal-line"><span class="comment"># Running Fibonacci(35)…</span></span>
-        <span class="terminal-line">&nbsp;</span>
-        <span class="terminal-line"><span class="output" style="color: var(--primary);">Benchmarking…</span></span>`;
-
-        setTimeout(() => {
-          if (!wasmFib) {
-            container.innerHTML += `<span class="terminal-line"><span class="output" style="color:#ef4444">Error: WebAssembly module failed to compile.</span></span>`;
-            return;
-          }
-
-          const n = 35;
-          const t0 = performance.now();
-          const jsVal = jsFib(n);
-          const jsTime = (performance.now() - t0).toFixed(2);
-          const t2 = performance.now();
-          const wasmVal = wasmFib(n);
-          const wasmTime = (performance.now() - t2).toFixed(2);
-          const speedup = (jsTime / wasmTime).toFixed(1);
-
-          container.innerHTML = `
-        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">./wasm_bench.sh</span></span>
-        <span class="terminal-line"><span class="comment"># Fibonacci(${n})</span></span>
-        <span class="terminal-line"><span class="output"><span class="key">JavaScript</span>   ${jsTime} ms  (${jsVal})</span></span>
-        <span class="terminal-line"><span class="output"><span class="key">WebAssembly</span>  ${wasmTime} ms  (${wasmVal})</span></span>
-        <span class="terminal-line"><span class="output" style="color: var(--secondary);">Wasm is ${speedup}x faster</span></span>
-        <span class="terminal-line">&nbsp;</span>
-        <span class="terminal-line"><span class="prompt">❯</span> <span class="cursor-blink"></span></span>`;
-        }, 120);
-      }
-
-      document.querySelectorAll(".tech-badge").forEach((badge) => {
-        const color = badge.getAttribute("data-color");
-        if (!color) return;
-        badge.style.setProperty("--brand-color", color);
-        const r = parseInt(color.slice(1, 3), 16);
-        const g = parseInt(color.slice(3, 5), 16);
-        const b = parseInt(color.slice(5, 7), 16);
-        badge.style.setProperty("--brand-color-soft", `rgba(${r}, ${g}, ${b}, 0.12)`);
-      });
-
-      const terminalData = {
-        about: `
-        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">whoami</span></span>
-        <span class="terminal-line"><span class="output">Nay Zaw Oo</span></span>
-        <span class="terminal-line">&nbsp;</span>
-        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">cat intro.md</span></span>
-        <span class="terminal-line"><span class="output">A Full Stack Developer driven by craft, cleaner abstractions, and performant user interfaces. I engineer reliable full-stack applications with beautiful frontends and solid backend services.</span></span>
-        <span class="terminal-line">&nbsp;</span>
-        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">cat core_values.log</span></span>
-        <span class="terminal-line"><span class="output">· User-centric design</span></span>
-        <span class="terminal-line"><span class="output">· Modular, optimized code</span></span>
-        <span class="terminal-line"><span class="output">· Continuous learning</span></span>
-        <span class="terminal-line">&nbsp;</span>
-        <span class="terminal-line"><span class="prompt">❯</span> <span class="cursor-blink"></span></span>`,
-        skills: `
-        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">cat skills.json</span></span>
-        <span class="terminal-line"><span class="output">{</span></span>
-        <span class="terminal-line"><span class="output">  <span class="key">"languages"</span>: ["TypeScript", "JavaScript", "PHP", "Dart"],</span></span>
-        <span class="terminal-line"><span class="output">  <span class="key">"frameworks"</span>: ["Laravel", "React", "Vue.js", "Flutter"],</span></span>
-        <span class="terminal-line"><span class="output">  <span class="key">"databases"</span>: ["PostgreSQL", "MySQL", "Redis"],</span></span>
-        <span class="terminal-line"><span class="output">  <span class="key">"tools"</span>: ["Git", "Docker", "Vite"]</span></span>
-        <span class="terminal-line"><span class="output">}</span></span>
-        <span class="terminal-line">&nbsp;</span>
-        <span class="terminal-line"><span class="prompt">❯</span> <span class="cursor-blink"></span></span>`,
-        contact: `
-        <span class="terminal-line"><span class="prompt">❯</span> <span class="cmd">curl -s https://nayzawoo.me/info</span></span>
-        <span class="terminal-line"><span class="output"><span class="key">Email</span>      <a href="mailto:nayzawoo.me@gmail.com" class="terminal-link">nayzawoo.me@gmail.com</a></span></span>
-        <span class="terminal-line"><span class="output"><span class="key">GitHub</span>     <a href="https://github.com/nayzawoo" target="_blank" rel="noopener noreferrer" class="terminal-link">github.com/nayzawoo</a></span></span>
-        <span class="terminal-line"><span class="output"><span class="key">LinkedIn</span>   <a href="https://linkedin.com/in/nayzawoo" target="_blank" rel="noopener noreferrer" class="terminal-link">linkedin.com/in/nayzawoo</a></span></span>
-        <span class="terminal-line"><span class="output"><span class="key">Location</span>   Yangon, Myanmar</span></span>
-        <span class="terminal-line"><span class="output"><span class="key">Status</span>     Available for remote work</span></span>
-        <span class="terminal-line">&nbsp;</span>
-        <span class="terminal-line"><span class="prompt">❯</span> <span class="cursor-blink"></span></span>`
-      };
-
-      function switchTerminalTab(tabKey) {
-        document.querySelectorAll(".terminal-tab").forEach((tab) => {
-          tab.classList.toggle("active", tab.dataset.tab === tabKey);
-        });
-
-        if (tabKey === "wasm") {
-          runBenchmark();
-          return;
-        }
-
-        const container = document.getElementById("terminalContent");
-        if (!container) return;
-        container.style.opacity = "0";
-        setTimeout(() => {
-          container.innerHTML = terminalData[tabKey];
-          container.style.opacity = "1";
-        }, 80);
-      }
-
-      const sections = document.querySelectorAll("section[id], #about");
-      const navItems = document.querySelectorAll(".dock-item");
-
-      function trackActiveSection() {
-        let current = "hero";
-        sections.forEach((section) => {
-          if (window.scrollY >= section.offsetTop - 240) {
-            current = section.id || current;
-          }
-        });
-        navItems.forEach((item) => {
-          item.classList.toggle("active", item.getAttribute("href") === `#${current}`);
-        });
-      }
-
-      document.addEventListener("DOMContentLoaded", () => {
-        initWasm();
-        switchTerminalTab("about");
-        window.addEventListener("scroll", trackActiveSection, { passive: true });
-        trackActiveSection();
-      });
-    </script>
-  </body>
+      window.addEventListener('pointermove', event => {
+        pointer.x = event.clientX;
+        pointer.y = event.clientY;
+        pointer.active = event.pointerType !== 'touch';
+        scheduleDraw();
+      }, { passive: true });
+      function hideLens() { pointer.active = false; scheduleDraw(); }
+      document.documentElement.addEventListener('pointerleave', hideLens);
+      window.addEventListener('blur', hideLens);
+      window.addEventListener('pointerdown', event => { if (event.pointerType === 'touch') hideLens(); }, { passive: true });
+      window.addEventListener('scroll', scheduleDraw, { passive: true });
+      window.addEventListener('resize', layout, { passive: true });
+      finePointer.addEventListener('change', hideLens);
+      layout();
+    })();
+  </script>
+</body>
 </html>
